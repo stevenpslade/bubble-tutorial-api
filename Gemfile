@@ -23,11 +23,23 @@ gem 'puma', '~> 3.0'
 # gem 'capistrano-rails', group: :development
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
+
+# Active Model Serializer for JSON serialization
+gem 'active_model_serializers', '~> 0.10.0'
+
+# Automatically generate an entity-relationship diagram (ERD) for your Rails models.
+gem 'rails-erd', '~> 1.4', '>= 1.4.7'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+
+  # Use RSpec for testing
+  gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
+
+  # Use Factory Girl for generating random test data
+  gem 'factory_girl_rails'
 end
 
 group :development do
