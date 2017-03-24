@@ -37,6 +37,9 @@ group :development, :test do
 
   # Use RSpec for testing
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
+
+  # For throttling and blocking abusive requests
+  gem 'rack-attack', '~> 4.4', '>= 4.4.1'
 end
 
 group :development do

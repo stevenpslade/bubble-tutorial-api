@@ -83,6 +83,8 @@ GEM
       mini_portile2 (~> 2.1.0)
     puma (3.8.2)
     rack (2.0.1)
+    rack-attack (4.4.1)
+      rack
     rack-cors (0.4.1)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -170,6 +172,7 @@ DEPENDENCIES
   faker
   listen (~> 3.0.5)
   puma (~> 3.0)
+  rack-attack (~> 4.4, >= 4.4.1)
   rack-cors
   rails (~> 5.0.1)
   rails-erd (~> 1.4, >= 1.4.7)
