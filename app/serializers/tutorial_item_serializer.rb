@@ -1,4 +1,4 @@
 class TutorialItemSerializer < ActiveModel::Serializer
   attributes :id, :title, :content, :active, :created_at
-  has_one :tutorial
+  belongs_to :tutorial
 end

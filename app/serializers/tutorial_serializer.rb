@@ -1,5 +1,6 @@
 class TutorialSerializer < ActiveModel::Serializer
   attributes :id, :name, :active, :created_at
-  has_one :user
-  has_one :site
+  belongs_to :user
+  belongs_to :site
+  has_many :tutorial_items, dependent: :destroy
 end
