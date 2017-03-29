@@ -10,4 +10,5 @@ RSpec.describe Site, type: :model do
   # ensure columns url, site_code are present before saving
   it { should validate_presence_of(:url) }
   it { should validate_presence_of(:site_code) }
+  it { should validate_uniqueness_of(:site_code) }
 end

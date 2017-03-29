@@ -3,4 +3,5 @@ class Site < ApplicationRecord
   belongs_to :user
 
   validates :url, :site_code, presence: true
+  validates :site_code, uniqueness: true
 end

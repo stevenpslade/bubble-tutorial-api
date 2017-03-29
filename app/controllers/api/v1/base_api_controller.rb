@@ -7,7 +7,7 @@ module Api::V1
       if Rails.env.production?
         render json: { status: 404, errors: 'Not found' }, status: :not_found
       else
-        render json: { message: exception, backtrace: exception.backtrace }, status: :not_found
+        render json: { status: 404, errors: 'Not found', message: exception, backtrace: exception.backtrace }, status: :not_found
       end
     end
 
