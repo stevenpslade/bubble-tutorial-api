@@ -3,9 +3,11 @@ Rails.application.routes.draw do
   constraints subdomain: 'api' do
     scope module: 'api' do
       namespace :v1 do
-        resources :tutorial_items
-        resources :tutorials
-        resources :sites
+        resources :sites do
+          resources :tutorials do
+            resources :tutorial_items
+          end
+        end
         resources :users
       end
     end
