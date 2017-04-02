@@ -52,14 +52,16 @@ RSpec.describe "Sites", type: :request do
 
   describe "POST /v1/sites" do
 
-    let(:valid_attributes) { { url: "www.example.com", site_code: "123456", user_id: user_id } }
+    let(:valid_attributes) { { "site"=>{"url"=>"www.example.com", "user_id"=>user_id, "site_code"=>"123456"} } }
+    let(:invalid_attributes) { { "site"=>{"url"=>"", "user_id"=>user_id, "site_code"=>"123456"} } }
 
     context 'when the request is valid' do
       before { post v1_sites_path, params: valid_attributes }
 
       it 'creates a site' do
-        expect(json['url']).to eq("www.example.com")
-        expect(json['site_code']).to eq("123456")
+        expect(json['data']['attributes']['url']).to eq("www.example.com")
+        expect(json['data']['attributes']['site_code']).to eq("123456")
+        expect(json['data']['relationships']['user']['data']['id'].to_i).to eq(user_id)
       end
 
       it 'returns status code 201' do
@@ -68,7 +70,7 @@ RSpec.describe "Sites", type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post v1_sites_path, params: { site_code: "666" } }
+      before { post v1_sites_path, params: invalid_attributes }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -76,23 +78,23 @@ RSpec.describe "Sites", type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: URL can't be blank/)
+          .to match(/can't be blank/)
       end
     end
   end
 
   describe 'PUT /v1/sites/:id' do
-    let(:valid_attributes) { { url: 'www.updated.com' } }
+    let(:valid_attributes) { { "site"=>{"url"=>"www.updated.com"} } }
 
     context 'when the record exists' do
       before { put v1_site_path(id), params: valid_attributes }
 
       it 'updates the record' do
-        expect(response.body).to be_empty
+        expect(json['data']['attributes']['url']).to eq("www.updated.com")
       end
 
       it 'returns status code 204' do
-        expect(response).to have_http_status(204)
+        expect(response).to have_http_status(200)
       end
     end
   end
