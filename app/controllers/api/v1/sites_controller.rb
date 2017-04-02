@@ -19,7 +19,7 @@ module Api::V1
       @site = Site.new(site_params)
 
       if @site.save
-        render json: @site, status: :created, location: @site
+        render json: @site, status: :created, location: v1_site_url(@site)
       else
         render json: @site.errors, status: :unprocessable_entity
       end
@@ -47,7 +47,7 @@ module Api::V1
 
       # Only allow a trusted parameter "white list" through.
       def site_params
-        params.require(:site).permit(:url)
+        params.fetch(:site, {}).permit(:url, :site_code, :user_id)
       end
   end
 end

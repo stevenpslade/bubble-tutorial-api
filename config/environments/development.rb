@@ -38,7 +38,7 @@ Rails.application.configure do
   config.active_record.migration_error = :page_load
 
   # Allow constraint subdomain for routes
-  config.action_dispatch.tld_length = 0
+  config.action_dispatch.tld_length = 1
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

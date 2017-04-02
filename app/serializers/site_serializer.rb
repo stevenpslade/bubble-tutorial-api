@@ -1,5 +1,5 @@
 class SiteSerializer < ActiveModel::Serializer
-  attributes :id, :url, :created_at
+  attributes :id, :url, :site_code, :created_at
   has_many :tutorials
-  has_many :users, through: :tutorials
+  belongs_to :user
 end

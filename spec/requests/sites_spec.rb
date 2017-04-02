@@ -13,8 +13,8 @@ RSpec.describe "Sites", type: :request do
     before { get v1_sites_path }
 
     it "returns sites" do
-      expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json['data']).not_to be_empty
+      expect(json['data'].size).to eq(10)
     end
 
     it "returns status code 200" do
@@ -28,8 +28,8 @@ RSpec.describe "Sites", type: :request do
 
     context "when the record exists" do
       it "returns the site" do
-        expect(json).not_to be_empty
-        expect(json['id']).to eq(id)
+        expect(json['data']).not_to be_empty
+        expect(json['data']['id']).to eq(id.to_s)
       end
 
       it "returns status code 200" do
@@ -45,17 +45,17 @@ RSpec.describe "Sites", type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find Todo/)
+        expect(response.body).to match(/Couldn't find Site/)
       end
     end
   end
 
   describe "POST /v1/sites" do
 
-    let(:valid_attributes) { { url: "www.example.com", site_code: "123456" } }
+    let(:valid_attributes) { { url: "www.example.com", site_code: "123456", user_id: user_id } }
 
     context 'when the request is valid' do
-      before { post v1_sites, params: valid_attributes }
+      before { post v1_sites_path, params: valid_attributes }
 
       it 'creates a site' do
         expect(json['url']).to eq("www.example.com")
@@ -68,7 +68,7 @@ RSpec.describe "Sites", type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post v1_sites, params: { site_code: "666" } }
+      before { post v1_sites_path, params: { site_code: "666" } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -85,7 +85,7 @@ RSpec.describe "Sites", type: :request do
     let(:valid_attributes) { { url: 'www.updated.com' } }
 
     context 'when the record exists' do
-      before { put v1_site(id), params: valid_attributes }
+      before { put v1_site_path(id), params: valid_attributes }
 
       it 'updates the record' do
         expect(response.body).to be_empty
@@ -98,7 +98,7 @@ RSpec.describe "Sites", type: :request do
   end
 
   describe 'DELETE /sites/:id' do
-    before { delete v1_site(id) }
+    before { delete v1_site_path(id) }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
