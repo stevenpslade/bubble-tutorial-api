@@ -11,7 +11,7 @@ module Api::V1
 
     # GET /sites/1
     def show
-      render json: @site
+      render json: @site, include:  ['tutorials', 'tutorial_items']
     end
 
     # POST /sites
