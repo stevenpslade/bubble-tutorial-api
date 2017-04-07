@@ -47,7 +47,7 @@ module Api::V1
 
       # Only allow a trusted parameter "white list" through.
       def site_params
-        params.fetch(:site, {}).permit(:url, :site_code, :user_id)
+        params.require(:site).permit(:url, :site_code, :user_id)
       end
   end
 end

@@ -17,9 +17,10 @@ module Api::V1
     # POST /tutorials
     def create
       @tutorial = Tutorial.new(tutorial_params)
+      @site = Site.find(params[:site_id]) 
 
       if @tutorial.save
-        render json: @tutorial, status: :created, location: @tutorial
+        render json: @tutorial, status: :created, location: v1_site_tutorial_url(@site, @tutorial)
       else
         render json: @tutorial.errors, status: :unprocessable_entity
       end

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :tutorial do
-    name { Faker::Coffee.blend_name }
+    name { Faker::Internet.domain_word }
     active true
     user_id nil
     site_id nil
