@@ -14,9 +14,15 @@ RSpec.describe "Tutorials", type: :request do
     before { get v1_site_tutorials_path(site_id) }
 
     it "returns tutorials" do
+      expect(json['data']).not_to be_empty
+      expect(json['data'].size).to eq(10)
     end
 
+    it "returns assocaited site data"
+    it "returns associated tutorial items"
+
     it "returns status code 200" do
+      expect(response).to have_http_status(200)
     end
   end
 
@@ -25,7 +31,7 @@ RSpec.describe "Tutorials", type: :request do
     before { get v1_site_tutorial_path(site_id, id) }
 
     context "when the record exists" do
-      it "returns the site" do
+      it "returns the tutorial" do
         expect(json['data']).not_to be_empty
         expect(json['data']['id']).to eq(id.to_s)
       end
