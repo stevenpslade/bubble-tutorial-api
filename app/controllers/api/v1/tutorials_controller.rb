@@ -6,12 +6,12 @@ module Api::V1
     def index
       @tutorials = Tutorial.all
 
-      render json: @tutorials, include: ['site', 'tutorial_items']
+      render json: @tutorials
     end
 
     # GET /tutorials/1
     def show
-      render json: @tutorial, include: ['tutorial_items']
+      render json: @tutorial
     end
 
     # POST /tutorials

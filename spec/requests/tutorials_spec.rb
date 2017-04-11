@@ -8,6 +8,7 @@ RSpec.describe "Tutorials", type: :request do
   let!(:site_id) { site.id }
   let!(:tutorials) { create_list(:tutorial, 10, user_id: user_id, site_id: site_id) }
   let!(:id) { tutorials.first.id }
+  let!(:tutorial_items) { create_list(:tutorial_item, 5, tutorial_id: tutorials.first.id) }
 
   describe "GET /v1/sites/:site_id/tutorials" do
     
@@ -17,9 +18,6 @@ RSpec.describe "Tutorials", type: :request do
       expect(json['data']).not_to be_empty
       expect(json['data'].size).to eq(10)
     end
-
-    it "returns assocaited site data"
-    it "returns associated tutorial items"
 
     it "returns status code 200" do
       expect(response).to have_http_status(200)
@@ -31,9 +29,15 @@ RSpec.describe "Tutorials", type: :request do
     before { get v1_site_tutorial_path(site_id, id) }
 
     context "when the record exists" do
+
       it "returns the tutorial" do
         expect(json['data']).not_to be_empty
         expect(json['data']['id']).to eq(id.to_s)
+      end
+
+      it "returns associated tutorial items" do
+        expect(json['data']['attributes']['tutorial_items']).not_to be_empty
+        expect(json['data']['attributes']['tutorial_items'].size).to eq(5)
       end
 
       it "returns status code 200" do
