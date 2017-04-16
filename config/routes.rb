@@ -5,13 +5,10 @@ Rails.application.routes.draw do
       namespace :v1 do
         resources :sites do
           resources :tutorials do
-            # TODO: consider NOT doing this. Rails docs say no more than 1 layer deep with
-            # nesting and since I'm side loading this in tutorials anyways, this route
-            # for the api won't really be used like this anyways.
-            resources :tutorial_items
           end
         end
         resources :users
+        resources :tutorial_items
       end
     end
   end
