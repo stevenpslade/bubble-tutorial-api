@@ -35,8 +35,8 @@ RSpec.describe "Tutorials", type: :request do
 
     context "when the request domain does not match the site url" do
       let(:fake_site) { create(:site, user_id: user_id) }
-      # Should be http://example.com as per site factory
-      let(:site_url) { site.url }
+      # Should be random domain.com as per site factory
+      let(:site_id) { fake_site.id }
 
       it "returns status code 403" do
         expect(response).to have_http_status(403)

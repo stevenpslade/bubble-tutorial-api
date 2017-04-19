@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :site do
-    url { Faker::Internet.url('example.com', '') }
+    url { Faker::Internet.domain_name }
     site_code { Faker::Code.ean }
     user_id nil
   end
