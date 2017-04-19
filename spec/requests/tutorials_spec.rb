@@ -13,10 +13,10 @@ RSpec.describe "Tutorials", type: :request do
   describe "GET /v1/sites/:site_id/tutorials" do
     # TODO: figure out how to pass http origin to rspec test but also not pass it correctly
     # in the second context. Also why was request.origin working at first but now it is not!
-    before { get v1_site_tutorials_path(site_id), headers: { Origin: "http://api.example.com" } }
+    before { get v1_site_tutorials_path(site_id), headers: { Origin: site_url } }
 
     context "when the request domain matches the site url" do
-      let(:site_url) { "http://api.example.com" }
+      let(:site_url) { site.url }
       let(:origin) { request.origin }
 
       it "matches the site url with the request domain" do
@@ -34,9 +34,7 @@ RSpec.describe "Tutorials", type: :request do
     end
 
     context "when the request domain does not match the site url" do
-      let(:fake_site) { create(:site, user_id: user_id) }
-      # Should be random domain.com as per site factory
-      let(:site_id) { fake_site.id }
+      let(:site_url) { "fake-site.com" }
 
       it "returns status code 403" do
         expect(response).to have_http_status(403)

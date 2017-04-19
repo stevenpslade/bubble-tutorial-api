@@ -1,5 +1,6 @@
 module Api::V1
   class TutorialsController < BaseApiController
+    before_action :validate_site_origin, only: :index
     before_action :set_tutorial, only: [:show, :update, :destroy]
 
     # GET /tutorials
@@ -41,6 +42,14 @@ module Api::V1
     end
 
     private
+
+      def validate_site_origin
+        site_url = Site.find(params[:site_id]).url
+
+        if request.origin != site_url
+          render json: { status: 403, errors: 'Not Authorized' }, status: 403
+        end
+      end
       # Use callbacks to share common setup or constraints between actions.
       def set_tutorial
         @tutorial = Tutorial.find(params[:id])

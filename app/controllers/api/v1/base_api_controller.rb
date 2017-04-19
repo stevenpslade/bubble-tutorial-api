@@ -2,6 +2,8 @@ module Api::V1
   class BaseApiController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found_rescue
 
+    private
+    
     def record_not_found_rescue(exception)
       logger.info("#{exception.class}: " + exception.message)
       if Rails.env.production?
