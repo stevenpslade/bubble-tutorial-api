@@ -56,7 +56,7 @@ RSpec.describe "TutorialItems", type: :request do
 
   describe "POST /v1/tutorial_items" do
 
-    let(:valid_attributes) { { "tutorial_item"=>{"title"=>"Step1", "content"=>"this is content blah", "active"=>true, "tutorial_id"=>tutorial_id} } }
+    let(:valid_attributes) { { "tutorial_item"=>{"title"=>"Step1", "content"=>"this is content blah", "order"=>1, "css_selector"=>"#myDiv", "active"=>true, "tutorial_id"=>tutorial_id} } }
     let(:invalid_attributes) { { "tutorial_item"=>{"title"=>"", "content"=>"", "active"=>true, "tutorial_id"=>tutorial_id} } }
 
     context 'when the request is valid' do

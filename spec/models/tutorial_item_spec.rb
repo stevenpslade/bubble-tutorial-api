@@ -6,5 +6,6 @@ RSpec.describe TutorialItem, type: :model do
   # Validation tests
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:content) }
+  it { should validate_presence_of(:css_selector) }
   it { should validate_exclusion_of(:active).in_array([nil]) }
 end

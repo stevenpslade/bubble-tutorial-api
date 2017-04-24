@@ -78,7 +78,7 @@ RSpec.describe "Tutorials", type: :request do
 
   describe "POST v1/sites/:site_id/tutorials" do
 
-    let(:valid_attributes) { { "tutorial"=>{"name"=>"Best Tutorial", "active"=>true, "user_id"=>user_id, "site_id"=>site_id} } }
+    let(:valid_attributes) { { "tutorial"=>{"name"=>"Best Tutorial", "active"=>true, "page_url"=>"www.example.com/page", "skippable"=>true, "show_steps"=>true, "user_id"=>user_id, "site_id"=>site_id} } }
     let(:invalid_attributes) { { "tutorial"=>{"name"=>"", "user_id"=>user_id, "site_id"=>site_id} } }
 
     context 'when the request is valid' do

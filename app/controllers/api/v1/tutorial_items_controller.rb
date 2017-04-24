@@ -47,7 +47,7 @@ module Api::V1
 
       # Only allow a trusted parameter "white list" through.
       def tutorial_item_params
-        params.require(:tutorial_item).permit(:title, :content, :active, :tutorial_id)
+        params.require(:tutorial_item).permit(:title, :content, :order, :css_selector, :active, :tutorial_id)
       end
   end
 end
