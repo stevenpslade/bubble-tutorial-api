@@ -5,4 +5,9 @@ class Tutorial < ApplicationRecord
 
   validates :name, :page_url, presence: true
   validates :active, :skippable, :show_steps, exclusion: { in: [nil] }
+
+  def self.active_only
+    where(active: true)
+  end
+
 end

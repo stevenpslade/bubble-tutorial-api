@@ -6,7 +6,8 @@ RSpec.describe "Tutorials", type: :request do
   let!(:user_id) { user.id }
   let!(:site) { create(:site, user_id: user_id) }
   let!(:site_id) { site.id }
-  let!(:tutorials) { create_list(:tutorial, 10, user_id: user_id, site_id: site_id) }
+  let!(:tutorials) { create_list(:tutorial, 10, active: true, user_id: user_id, site_id: site_id) }
+  let!(:inactive_tutorials) { create_list(:tutorial, 5, active: false, user_id: user_id, site_id: site_id) }
   let!(:id) { tutorials.first.id }
   let!(:tutorial_items) { create_list(:tutorial_item, 5, tutorial_id: tutorials.first.id) }
 
@@ -23,7 +24,7 @@ RSpec.describe "Tutorials", type: :request do
         expect(origin).to eq(site_url)
       end
 
-      it "returns tutorials" do
+      it "returns active tutorials" do
         expect(json['data']).not_to be_empty
         expect(json['data'].size).to eq(10)
       end
