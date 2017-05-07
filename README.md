@@ -22,35 +22,11 @@ This project is still in development. To see what's going on in my head and proj
       "id": "1",
       "type": "tutorials",
       "attributes": {
-        "name": "Test Tutorial",
-        "page_url": "www.example.com/lobby",
-        "skippable": false,
-        "show_steps": true,
+        "name": "Test",
         "active": true,
-        "tutorial_items": [
-          {
-            "id": 1,
-            "title": "Step1",
-            "content": "test",
-            "active": true,
-            "tutorial_id": 1,
-            "order": 1,
-            "css_selector": "#subscribe-button",
-            "created_at": "2017-04-02T07:04:30.624Z",
-            "updated_at": "2017-04-02T07:04:30.624Z",
-          },
-          {
-            "id": 2,
-            "title": "Step2",
-            "content": "testing",
-            "active": true,
-            "tutorial_id": 1,
-            "css_selector": ".lobby-div",
-            "order": 2,
-            "created_at": "2017-04-08T05:23:26.293Z",
-            "updated_at": "2017-04-08T05:23:26.293Z",
-          }
-        ]
+        "page_url": null,
+        "skippable": null,
+        "show_steps": null
       },
       "relationships": {
         "user": {
@@ -76,6 +52,48 @@ This project is still in development. To see what's going on in my head and proj
               "type": "tutorial_items"
             }
           ]
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "1",
+      "type": "tutorial_items",
+      "attributes": {
+        "title": "Step1",
+        "content": "test",
+        "active": true,
+        "css_selector": null,
+        "order": null,
+        "created_at": "2017-04-02T07:04:30.624Z"
+      },
+      "relationships": {
+        "tutorial": {
+          "data": {
+            "id": "1",
+            "type": "tutorials"
+          }
+        }
+      }
+    },
+    {
+      "id": "2",
+      "type": "tutorial_items",
+      "attributes": {
+        "title": "Step2",
+        "content": "testing",
+        "active": true,
+        "css_selector": null,
+        "order": null,
+        "created_at": "2017-04-08T05:23:26.293Z"
+      },
+      "relationships": {
+        "tutorial": {
+          "data": {
+            "id": "1",
+            "type": "tutorials"
+          }
         }
       }
     }

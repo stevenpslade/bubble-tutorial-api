@@ -7,7 +7,7 @@ module Api::V1
     def index
       @tutorials = Tutorial.active_only
 
-      render json: @tutorials
+      render json: @tutorials, include:  ['tutorial_items'] 
     end
 
     # GET /tutorials/1

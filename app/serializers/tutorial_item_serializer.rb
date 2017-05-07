@@ -1,4 +1,5 @@
 class TutorialItemSerializer < ActiveModel::Serializer
-  attributes :id, :title, :content, :active, :created_at
   belongs_to :tutorial
+
+  attributes :id, :title, :content, :active, :css_selector, :order, :created_at
 end

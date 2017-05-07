@@ -32,6 +32,11 @@ RSpec.describe "Tutorials", type: :request do
       it "returns status code 200" do
         expect(response).to have_http_status(200)
       end
+
+      it "returns associated tutorial items" do
+        expect(json['included']).not_to be_empty
+        expect(json['included'].size).to eq(5)
+      end
     end
 
     context "when the request domain does not match the site url" do
@@ -52,11 +57,6 @@ RSpec.describe "Tutorials", type: :request do
       it "returns the tutorial" do
         expect(json['data']).not_to be_empty
         expect(json['data']['id']).to eq(id.to_s)
-      end
-
-      it "returns associated tutorial items" do
-        expect(json['data']['attributes']['tutorial_items']).not_to be_empty
-        expect(json['data']['attributes']['tutorial_items'].size).to eq(5)
       end
 
       it "returns status code 200" do
