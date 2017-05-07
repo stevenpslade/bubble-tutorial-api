@@ -22,11 +22,11 @@ This project is still in development. To see what's going on in my head and proj
       "id": "1",
       "type": "tutorials",
       "attributes": {
-        "name": "Test",
+        "name": "Welcome Tutorial",
         "active": true,
-        "page_url": null,
-        "skippable": null,
-        "show_steps": null
+        "page_url": "example.com/welcome",
+        "skippable": false,
+        "show_steps": true
       },
       "relationships": {
         "user": {
@@ -50,6 +50,10 @@ This project is still in development. To see what's going on in my head and proj
             {
               "id": "2",
               "type": "tutorial_items"
+            },
+            {
+              "id": "3",
+              "type": "tutorial_items"
             }
           ]
         }
@@ -61,12 +65,12 @@ This project is still in development. To see what's going on in my head and proj
       "id": "1",
       "type": "tutorial_items",
       "attributes": {
-        "title": "Step1",
-        "content": "test",
+        "title": "step1",
+        "content": "welcome to this site.",
         "active": true,
-        "css_selector": null,
-        "order": null,
-        "created_at": "2017-04-02T07:04:30.624Z"
+        "css_selector": ".welcome-banner",
+        "order": 1,
+        "created_at": "2017-05-07T06:05:48.890Z"
       },
       "relationships": {
         "tutorial": {
@@ -81,12 +85,32 @@ This project is still in development. To see what's going on in my head and proj
       "id": "2",
       "type": "tutorial_items",
       "attributes": {
-        "title": "Step2",
-        "content": "testing",
+        "title": "step2",
+        "content": "click here to signup...",
         "active": true,
-        "css_selector": null,
-        "order": null,
-        "created_at": "2017-04-08T05:23:26.293Z"
+        "css_selector": "#signup",
+        "order": 2,
+        "created_at": "2017-05-07T06:05:48.892Z"
+      },
+      "relationships": {
+        "tutorial": {
+          "data": {
+            "id": "1",
+            "type": "tutorials"
+          }
+        }
+      }
+    },
+    {
+      "id": "3",
+      "type": "tutorial_items",
+      "attributes": {
+        "title": "step3",
+        "content": "give us your info!",
+        "active": true,
+        "css_selector": "#newsletter",
+        "order": 3,
+        "created_at": "2017-05-07T06:05:48.895Z"
       },
       "relationships": {
         "tutorial": {
