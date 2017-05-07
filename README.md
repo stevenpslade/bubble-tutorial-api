@@ -9,6 +9,8 @@ Bubble Tutorials allows users to put beautiful, engaging tutorials on their webs
 - This script communications with our Rails API, which sends the tutorial data to the site
 - The script on the user's website displays the tutorials
 
+Script repo (in-progress) can be found [here](https://github.com/stevenpslade/bubble-tutorial-script).
+
 This project is still in development. To see what's going on in my head and project TODOs  [visit my public Trello board](https://trello.com/b/oflmtBIf/bubble-tutorial).
 
 ## Example Output
