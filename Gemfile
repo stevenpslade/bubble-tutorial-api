@@ -31,15 +31,15 @@ gem 'active_model_serializers', '~> 0.10.0'
 # Automatically generate an entity-relationship diagram (ERD) for your Rails models.
 gem 'rails-erd', '~> 1.4', '>= 1.4.7'
 
+# For throttling and blocking abusive requests
+gem 'rack-attack', '~> 4.4', '>= 4.4.1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
 
   # Use RSpec for testing
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
-
-  # For throttling and blocking abusive requests
-  gem 'rack-attack', '~> 4.4', '>= 4.4.1'
 end
 
 group :development do
