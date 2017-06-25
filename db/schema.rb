@@ -12,13 +12,16 @@
 
 ActiveRecord::Schema.define(version: 20170423013202) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "sites", force: :cascade do |t|
     t.string   "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
     t.string   "site_code"
-    t.index ["user_id"], name: "index_sites_on_user_id"
+    t.index ["user_id"], name: "index_sites_on_user_id", using: :btree
   end
 
   create_table "tutorial_items", force: :cascade do |t|
@@ -30,7 +33,7 @@ ActiveRecord::Schema.define(version: 20170423013202) do
     t.datetime "updated_at",   null: false
     t.integer  "order"
     t.string   "css_selector"
-    t.index ["tutorial_id"], name: "index_tutorial_items_on_tutorial_id"
+    t.index ["tutorial_id"], name: "index_tutorial_items_on_tutorial_id", using: :btree
   end
 
   create_table "tutorials", force: :cascade do |t|
@@ -43,8 +46,8 @@ ActiveRecord::Schema.define(version: 20170423013202) do
     t.string   "page_url"
     t.boolean  "skippable"
     t.boolean  "show_steps"
-    t.index ["site_id"], name: "index_tutorials_on_site_id"
-    t.index ["user_id"], name: "index_tutorials_on_user_id"
+    t.index ["site_id"], name: "index_tutorials_on_site_id", using: :btree
+    t.index ["user_id"], name: "index_tutorials_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
