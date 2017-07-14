@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe TutorialsController, type: :routing do
+RSpec.describe "TutorialsController", type: :routing do
   describe "routing" do
 
     it "routes to #index" do
