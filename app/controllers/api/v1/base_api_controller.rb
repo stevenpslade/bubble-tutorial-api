@@ -1,6 +1,9 @@
 module Api::V1
   class BaseApiController < ApplicationController
+    include Knock::Authenticable
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found_rescue
+
+    before_action :authenticate
 
     private
     

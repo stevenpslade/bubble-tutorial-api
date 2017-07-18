@@ -1,5 +1,6 @@
 module Api::V1
   class TutorialsController < BaseApiController
+    skip_before_action :authenticate, only: :index
     before_action :validate_site_origin, only: :index
     before_action :set_tutorial, only: [:show, :update, :destroy]
 

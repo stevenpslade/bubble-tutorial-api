@@ -1,6 +1,5 @@
 module Api::V1
   class SitesController < BaseApiController
-    # before_action :authenticate_api_v1_user
     before_action :set_site, only: [:show, :update, :destroy]
 
     # GET /sites
