@@ -14,7 +14,7 @@ RSpec.describe "TutorialItems", type: :request do
 
   describe "GET /v1/tutorial_items" do
 
-    before { get v1_tutorial_items_path }
+    before { get v1_tutorial_items_path, headers: authenticated_header(user) }
 
     it "returns tutorial items" do
       expect(json['data']).not_to be_empty
@@ -28,7 +28,7 @@ RSpec.describe "TutorialItems", type: :request do
 
   describe "GET /v1/tutorial_items/:id" do
 
-    before { get v1_tutorial_item_path(id) }
+    before { get v1_tutorial_item_path(id), headers: authenticated_header(user) }
 
     context "when the record exists" do
       it "returns the tutorial item" do
@@ -60,7 +60,7 @@ RSpec.describe "TutorialItems", type: :request do
     let(:invalid_attributes) { { "tutorial_item"=>{"title"=>"", "content"=>"", "active"=>true, "tutorial_id"=>tutorial_id} } }
 
     context 'when the request is valid' do
-      before { post v1_tutorial_items_path, params: valid_attributes }
+      before { post v1_tutorial_items_path, params: valid_attributes, headers: authenticated_header(user) }
 
       it 'creates a tutorial item' do
         expect(json['data']['attributes']['title']).to eq("Step1")
@@ -74,7 +74,7 @@ RSpec.describe "TutorialItems", type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post v1_tutorial_items_path, params: invalid_attributes }
+      before { post v1_tutorial_items_path, params: invalid_attributes, headers: authenticated_header(user) }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -87,24 +87,24 @@ RSpec.describe "TutorialItems", type: :request do
     end
   end
 
-  describe 'PUT /v1/tutorial_item/:id' do
+  describe 'PUT /v1/tutorial_items/:id' do
     let(:valid_attributes) { { "tutorial_item"=>{"title"=>"Updated Step"} } }
 
     context 'when the record exists' do
-      before { put v1_tutorial_item_path(id), params: valid_attributes }
+      before { put v1_tutorial_item_path(id), params: valid_attributes, headers: authenticated_header(user) }
 
       it 'updates the record' do
         expect(json['data']['attributes']['title']).to eq("Updated Step")
       end
 
-      it 'returns status code 204' do
+      it 'returns status code 200' do
         expect(response).to have_http_status(200)
       end
     end
   end
 
   describe 'DELETE /tutorial_item/:id' do
-    before { delete v1_tutorial_item_path(id) }
+    before { delete v1_tutorial_item_path(id), headers: authenticated_header(user) }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)

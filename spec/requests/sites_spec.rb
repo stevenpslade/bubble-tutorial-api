@@ -10,7 +10,7 @@ RSpec.describe "Sites", type: :request do
   describe "GET /v1/sites" do
 
     # make HTTP get request before each example
-    before { get v1_sites_path }
+    before { get v1_sites_path, headers: authenticated_header(user) }
 
     it "returns sites" do
       expect(json['data']).not_to be_empty
@@ -24,7 +24,7 @@ RSpec.describe "Sites", type: :request do
 
   describe "GET /v1/sites/:id" do
 
-    before { get v1_site_path(id) }
+    before { get v1_site_path(id), headers: authenticated_header(user) }
 
     context "when the record exists" do
       it "returns the site" do
@@ -56,7 +56,7 @@ RSpec.describe "Sites", type: :request do
     let(:invalid_attributes) { { "site"=>{"url"=>"", "user_id"=>user_id, "site_code"=>"123456"} } }
 
     context 'when the request is valid' do
-      before { post v1_sites_path, params: valid_attributes }
+      before { post v1_sites_path, params: valid_attributes, headers: authenticated_header(user) }
 
       it 'creates a site' do
         expect(json['data']['attributes']['url']).to eq("www.example.com")
@@ -70,7 +70,7 @@ RSpec.describe "Sites", type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post v1_sites_path, params: invalid_attributes }
+      before { post v1_sites_path, params: invalid_attributes, headers: authenticated_header(user) }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -87,7 +87,7 @@ RSpec.describe "Sites", type: :request do
     let(:valid_attributes) { { "site"=>{"url"=>"www.updated.com"} } }
 
     context 'when the record exists' do
-      before { put v1_site_path(id), params: valid_attributes }
+      before { put v1_site_path(id), params: valid_attributes, headers: authenticated_header(user) }
 
       it 'updates the record' do
         expect(json['data']['attributes']['url']).to eq("www.updated.com")
@@ -100,7 +100,7 @@ RSpec.describe "Sites", type: :request do
   end
 
   describe 'DELETE /sites/:id' do
-    before { delete v1_site_path(id) }
+    before { delete v1_site_path(id), headers: authenticated_header(user) }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)

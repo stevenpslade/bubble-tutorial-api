@@ -12,8 +12,6 @@ RSpec.describe "Tutorials", type: :request do
   let!(:tutorial_items) { create_list(:tutorial_item, 5, tutorial_id: tutorials.first.id) }
 
   describe "GET /v1/sites/:site_id/tutorials" do
-    # TODO: figure out how to pass http origin to rspec test but also not pass it correctly
-    # in the second context. Also why was request.origin working at first but now it is not!
     before { get v1_site_tutorials_path(site_id), headers: { Origin: site_url } }
 
     context "when the request domain matches the site url" do
@@ -50,7 +48,7 @@ RSpec.describe "Tutorials", type: :request do
 
   describe "GET v1/sites/:site_id/tutorials/:id" do
 
-    before { get v1_site_tutorial_path(site_id, id) }
+    before { get v1_site_tutorial_path(site_id, id), headers: authenticated_header(user) }
 
     context "when the record exists" do
 
@@ -83,7 +81,7 @@ RSpec.describe "Tutorials", type: :request do
     let(:invalid_attributes) { { "tutorial"=>{"name"=>"", "user_id"=>user_id, "site_id"=>site_id} } }
 
     context 'when the request is valid' do
-      before { post v1_site_tutorials_path(site_id), params: valid_attributes }
+      before { post v1_site_tutorials_path(site_id), params: valid_attributes, headers: authenticated_header(user) }
 
       it 'creates a tutorial' do
         expect(json['data']['attributes']['name']).to eq("Best Tutorial")
@@ -98,7 +96,7 @@ RSpec.describe "Tutorials", type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post v1_site_tutorials_path(site_id), params: invalid_attributes }
+      before { post v1_site_tutorials_path(site_id), params: invalid_attributes, headers: authenticated_header(user) }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -115,7 +113,7 @@ RSpec.describe "Tutorials", type: :request do
     let(:valid_attributes) { { "tutorial"=>{"name"=>"Best Updated Tutorial"} } }
 
     context 'when the record exists' do
-      before { put v1_site_tutorial_path(site_id, id), params: valid_attributes }
+      before { put v1_site_tutorial_path(site_id, id), params: valid_attributes, headers: authenticated_header(user) }
 
       it 'updates the record' do
         expect(json['data']['attributes']['name']).to eq("Best Updated Tutorial")
@@ -128,7 +126,7 @@ RSpec.describe "Tutorials", type: :request do
   end
 
   describe "DELETE v1/sites/:site_id/tutorials/:id" do
-    before { delete v1_site_tutorial_path(site_id, id) }
+    before { delete v1_site_tutorial_path(site_id, id), headers: authenticated_header(user) }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
