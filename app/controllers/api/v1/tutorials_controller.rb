@@ -6,7 +6,7 @@ module Api::V1
 
     # GET /tutorials
     def index
-      @tutorials = Tutorial.active_only
+      @tutorials = Tutorial.active_only(params[:site_id])
 
       render json: @tutorials, include:  ['tutorial_items'] 
     end
