@@ -77,7 +77,8 @@ RSpec.describe "Tutorials", type: :request do
 
   describe "POST v1/sites/:site_id/tutorials" do
 
-    let(:valid_attributes) { { "tutorial"=>{"name"=>"Best Tutorial", "active"=>true, "page_url"=>"www.example.com/page", "skippable"=>true, "show_steps"=>true, "user_id"=>user_id, "site_id"=>site_id} } }
+    let(:tutorial_items_params) { { "title"=>"Step1", "content"=>"this is content blah", "order"=>1, "css_selector"=>"#myDiv", "active"=>true } }
+    let(:valid_attributes) { { "tutorial"=>{"name"=>"Best Tutorial", "active"=>true, "page_url"=>"www.example.com/page", "skippable"=>true, "show_steps"=>true, "user_id"=>user_id, "site_id"=>site_id, "tutorial_items_attributes"=> [ tutorial_items_params ] } } }
     let(:invalid_attributes) { { "tutorial"=>{"name"=>"", "user_id"=>user_id, "site_id"=>site_id} } }
 
     context 'when the request is valid' do
@@ -88,6 +89,7 @@ RSpec.describe "Tutorials", type: :request do
         expect(json['data']['attributes']['active']).to eq(true)
         expect(json['data']['relationships']['site']['data']['id'].to_i).to eq(site_id)
         expect(json['data']['relationships']['user']['data']['id'].to_i).to eq(user_id)
+        expect(json['data']['relationships']['tutorial_items']['data']).not_to be_empty
       end
 
       it 'returns status code 201' do

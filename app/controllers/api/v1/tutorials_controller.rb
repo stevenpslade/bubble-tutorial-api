@@ -2,13 +2,14 @@ module Api::V1
   class TutorialsController < BaseApiController
     skip_before_action :authenticate_user, only: :index
     before_action :validate_site_origin, only: :index
+    before_action :set_site
     before_action :set_tutorial, only: [:show, :update, :destroy]
 
     # GET /tutorials
     def index
       @tutorials = Tutorial.active_only(params[:site_id])
 
-      render json: @tutorials, include:  ['tutorial_items'] 
+      render json: @tutorials, include: ['tutorial_items'] 
     end
 
     # GET /tutorials/1
@@ -18,8 +19,7 @@ module Api::V1
 
     # POST /tutorials
     def create
-      @tutorial = Tutorial.new(tutorial_params)
-      @site = Site.find(params[:site_id]) 
+      @tutorial = @site.tutorials.new(tutorial_params)
 
       if @tutorial.save
         render json: @tutorial, status: :created, location: v1_site_tutorial_url(@site, @tutorial)
@@ -56,9 +56,13 @@ module Api::V1
         @tutorial = Tutorial.find(params[:id])
       end
 
+      def set_site
+        @site = Site.find(params[:site_id])
+      end
+
       # Only allow a trusted parameter "white list" through.
       def tutorial_params
-        params.require(:tutorial).permit(:name, :active, :page_url, :skippable, :show_steps, :user_id, :site_id)
+        params.require(:tutorial).permit(:name, :active, :page_url, :skippable, :show_steps, :user_id, tutorial_items_attributes: [ :id, :title, :content, :order, :css_selector, :active ])
       end
   end
 end
