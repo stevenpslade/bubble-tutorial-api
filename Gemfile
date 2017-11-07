@@ -50,6 +50,9 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+
+  # Foreman for managing Procfile; on guard about adding it to gemfile
+  gem 'foreman', '~> 0.82.0'
 end
 
 group :test do
