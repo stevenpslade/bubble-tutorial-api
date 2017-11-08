@@ -4,7 +4,7 @@ import './App.css';
 
 class App extends Component {
   componentDidMount() {
-    window.fetch('http://api.stevenlocal.com:3001/v1/sites/1/tutorials')
+    window.fetch('http://api.stevenpslade.com/v1/sites/1/tutorials')
       .then(response => response.json())
       .then(json => console.log(json))
       .catch(error => console.log(error))
