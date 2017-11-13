@@ -20,7 +20,9 @@ module Api::V1
       @user = User.new(user_params)
 
       if @user.save
-        render json: @user, status: :created, location: v1_user_url(@user)
+        token = authenticate_on_create(@user.id)
+
+        render json: @user, status: :created, location: v1_user_url(@user), auth_token: token
       else
         render json: { errors: @user.errors }, status: :unprocessable_entity
       end
@@ -44,6 +46,13 @@ module Api::V1
       # Use callbacks to share common setup or constraints between actions.
       def set_user
         @user = User.find(params[:id])
+      end
+
+      def authenticate_on_create(user_id)
+        # Create the token
+        knock_token = Knock::AuthToken.new payload: { sub: user_id }
+        # Access the JWT token
+        knock_token.token
       end
 
       # Only allow a trusted parameter "white list" through.
