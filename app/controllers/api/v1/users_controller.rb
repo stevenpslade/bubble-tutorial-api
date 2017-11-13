@@ -22,7 +22,7 @@ module Api::V1
       if @user.save
         render json: @user, status: :created, location: v1_user_url(@user)
       else
-        render json: @user.errors, status: :unprocessable_entity
+        render json: { errors: @user.errors }, status: :unprocessable_entity
       end
     end
 
