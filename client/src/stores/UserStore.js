@@ -4,7 +4,7 @@ import AppDispatcher from '../dispatcher/AppDispatcher.js';
 
 const CHANGE = 'CHANGE';
 let _user    = {};
-let _errors  = {};
+let _errors  = null;
 
 class UserStore extends EventEmitter {
 
@@ -19,7 +19,8 @@ class UserStore extends EventEmitter {
   _registerToActions(action) {
     switch(action.actionType) {
       case ActionTypes.SIGN_UP:
-        this._signUp(action.payload);
+        console.log(action);
+        this._signUp(action.json, action.errors);
         break;
 
       default:
@@ -30,13 +31,13 @@ class UserStore extends EventEmitter {
     return true;
   }
 
-  _signUp(data) {
-    if (data.data) {
-        var user    = data.data;
-        var email   = user.attributes.email;
+  _signUp(data, errors) {
+    console.log(errors);
+    if (data) {
+        var email   = data.attributes.email;
         _user.email = email;
-      } else if (data.errors) {
-        _errors = data.errors;
+      } else if (errors) {
+        _errors = errors;
       }
   }
 

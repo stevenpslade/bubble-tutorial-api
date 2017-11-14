@@ -20,7 +20,8 @@ const Actions = {
     }).then(function(data) {
       AppDispatcher.dispatch({
         actionType: ActionTypes.SIGN_UP,
-        payload: data
+        json: data.data,
+        errors: data.errors
       });
     });
   },
