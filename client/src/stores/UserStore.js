@@ -5,6 +5,7 @@ import AppDispatcher from '../dispatcher/AppDispatcher.js';
 const CHANGE = 'CHANGE';
 let _user    = {};
 let _errors  = null;
+let _authToken = null;
 
 class UserStore extends EventEmitter {
 
@@ -13,6 +14,22 @@ class UserStore extends EventEmitter {
 
     // Registers action handler with the Dispatcher.
     AppDispatcher.register(this._registerToActions.bind(this));
+  }
+
+  getUser() {
+    return _user;
+  }
+
+  getAuthToken() {
+    return _authToken;
+  }
+
+  isLoggedIn() {
+    return _authToken !== null;
+  }
+
+  getErrors() {
+    return _errors;
   }
 
   // Switches over the action's type when an action is dispatched.
@@ -34,19 +51,11 @@ class UserStore extends EventEmitter {
   _signUp(data, errors) {
     console.log(errors);
     if (data) {
-        var email   = data.attributes.email;
-        _user.email = email;
+        _user.email = data.attributes.email;
+        _authToken  = data.attributes.email;
       } else if (errors) {
         _errors = errors;
       }
-  }
-
-  getUser() {
-    return _user;
-  }
-
-  getErrors() {
-    return _errors;
   }
 
   // Hooks a React component's callback to the CHANGE event.

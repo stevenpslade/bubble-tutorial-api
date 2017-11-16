@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import UserStore from '../stores/UserStore'
 import ServerActions from '../actions/ServerActionCreators.js'
 
@@ -8,6 +9,7 @@ class SignUp extends Component {
     super(props);
     this.state = {
       user: UserStore.getUser(),
+      authenticated: false,
       errors: '',
       email: '',
       password: '',
@@ -30,7 +32,8 @@ class SignUp extends Component {
   _onChange() {
     this.setState({
       user: UserStore.getUser(),
-      errors: UserStore.getErrors()
+      errors: UserStore.getErrors(),
+      authenticated: UserStore.isLoggedIn()
     });
   }
 
@@ -91,6 +94,12 @@ class SignUp extends Component {
   }
 
   render() {
+    if (this.state.authenticated) {
+      return (
+        <Redirect to="/bubble"/>
+      );
+    }
+
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
