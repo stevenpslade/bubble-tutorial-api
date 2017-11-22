@@ -21,10 +21,6 @@ class Main extends Component {
 
   constructor() {
     super();
-    // this.state = {
-    //   authenticated: false,
-    //   redirectToReferrer: false
-    // }
 
     this._onChange = this._onChange.bind(this);
   }

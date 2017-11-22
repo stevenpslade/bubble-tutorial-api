@@ -1,11 +1,12 @@
 import ActionTypes from '../constants/Constants.js';
 import { EventEmitter } from 'events';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
+import Cookies from 'js-cookie';
 
 const CHANGE = 'CHANGE';
 let _user    = {};
 let _errors  = null;
-let _authToken = null;
+let _authToken = Cookies.get('token') || null;
 
 class UserStore extends EventEmitter {
 
@@ -34,9 +35,12 @@ class UserStore extends EventEmitter {
 
   // Switches over the action's type when an action is dispatched.
   _registerToActions(action) {
+    if(action && action.errors && action.errors.status === 400) {
+      // if at any point we receive a 401 from the server, it means our session is invalid
+      this._killSession();
+    }
     switch(action.actionType) {
       case ActionTypes.SIGN_UP:
-        console.log(action);
         this._signUp(action.json, action.errors);
         break;
 
@@ -49,13 +53,19 @@ class UserStore extends EventEmitter {
   }
 
   _signUp(data, errors) {
-    console.log(errors);
     if (data) {
-        _user.email = data.attributes.email;
-        _authToken  = data.attributes.email;
-      } else if (errors) {
-        _errors = errors;
-      }
+      _user.id    = data.id;
+      _user.email = data.attributes.email;
+      _authToken  = data.attributes.auth_token;
+      Cookies.set('token', _authToken);
+    } else if (errors) {
+      _errors = errors;
+    }
+  }
+
+  _killSession() {
+    _authToken = null;
+    Cookies.remove('token');
   }
 
   // Hooks a React component's callback to the CHANGE event.

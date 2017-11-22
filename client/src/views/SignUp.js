@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 import UserStore from '../stores/UserStore'
-import ServerActions from '../actions/ServerActionCreators.js'
+import ServerActions from '../actions/ServerActionCreators'
+import CreateSite from './components/CreateSite'
 
 class SignUp extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       user: UserStore.getUser(),
-      authenticated: false,
+      authenticated: UserStore.isLoggedIn(),
       errors: '',
       email: '',
       password: '',
@@ -96,7 +96,7 @@ class SignUp extends Component {
   render() {
     if (this.state.authenticated) {
       return (
-        <Redirect to="/bubble"/>
+        <CreateSite />
       );
     }
 
