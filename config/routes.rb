@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     scope module: 'api' do
       namespace :v1 do
         post 'user_token' => 'user_token#create'
+        get 'get_current_user' => 'users#get_current_user'
         
         resources :sites do
           resources :tutorials do

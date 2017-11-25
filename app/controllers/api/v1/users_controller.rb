@@ -10,6 +10,11 @@ module Api::V1
       render json: @users
     end
 
+    # GET /get_current_user
+    def get_current_user
+      render json: current_user
+    end
+
     # GET /users/1
     def show
       render json: @user
@@ -45,7 +50,7 @@ module Api::V1
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_user
-        @user = User.find(params[:id])
+          @user = User.find(params[:id])
       end
 
       def authenticate_on_create(user_id)
