@@ -47,7 +47,7 @@ module Api::V1
       def validate_site_origin
         site_url = Site.find(params[:site_id]).url
 
-        if request.origin != site_url
+        if request.origin != site_url || current_user
           render json: { status: 403, errors: 'Not Authorized' }, status: 403
         end
       end

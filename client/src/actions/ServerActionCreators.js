@@ -98,6 +98,35 @@ const Actions = {
     });
   },
 
+  getTutorialsAndItems(site_id) {
+    window.fetch(`http://api.stevenlocal.com:3001/v1/sites/${site_id}/tutorials`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + UserStore.getAuthToken()
+      }
+    })
+    .then(function(response) {
+      if (!response.ok) {
+          throw response;
+      }
+
+      return response.json();
+    }).then(function(data) {
+      AppDispatcher.dispatch({
+        actionType: ActionTypes.GET_TUTORIALS,
+        json: data.data,
+        errors: data.errors
+      });
+    }).catch(function(error) {
+        AppDispatcher.dispatch({
+          actionType: ActionTypes.GET_TUTORIALS,
+          json: null,
+          errors: error
+        });
+    });
+  }
+
 };
 
 export default Actions;

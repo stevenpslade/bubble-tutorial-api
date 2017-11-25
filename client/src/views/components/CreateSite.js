@@ -11,6 +11,7 @@ class CreateSite extends Component {
 
     this.state = {
       site: '',
+      url: '',
       errors: ''
     }
 

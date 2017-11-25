@@ -1,6 +1,7 @@
 import ActionTypes from '../constants/Constants.js';
 import { EventEmitter } from 'events';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
+import ServerActions from '../actions/ServerActionCreators'
 import Cookies from 'js-cookie';
 
 const CHANGE = 'CHANGE';
@@ -41,21 +42,28 @@ class UserStore extends EventEmitter {
     switch(action.actionType) {
       case ActionTypes.SIGN_UP:
         this._signUp(action.json, action.errors);
+        this.emit(CHANGE);
         break;
 
       case ActionTypes.LOGIN:
         this._login(action.json, action.errors);
+        this.emit(CHANGE);
+
+        if(_errors === null) {
+          ServerActions.getTutorialsAndItems();
+        }
+
         break;
 
       case ActionTypes.SIGN_OUT:
         this.logout();
+        this.emit(CHANGE);
         break;
 
       default:
         return true;
     }
 
-    this.emit(CHANGE);
     return true;
   }
 
