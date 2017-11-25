@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import UserStore from './stores/UserStore'
 import SignUp from './views/SignUp'
+import Login from './views/Login'
 import Bubble from './Bubble'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -43,6 +44,7 @@ class Main extends Component {
         <Switch>
           <Route exact path='/' component={SignUp}/>
           <Route path='/signup' component={SignUp}/>
+          <Route path='/login' component={Login}/>
           <PrivateRoute path='/bubble' component={Bubble}/>
         </Switch>
       </main>

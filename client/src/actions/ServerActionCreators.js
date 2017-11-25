@@ -27,6 +27,44 @@ const Actions = {
     });
   },
 
+  login(user) {
+    window.fetch('http://api.stevenlocal.com:3001/v1/user_token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({"auth":{
+        email: user.email,
+        password: user.password
+      }})
+    })
+    .then(function(response) {
+      if (!response.ok) {
+        throw response;
+      }
+
+      return response.json();
+    }).then(function(data) {
+      AppDispatcher.dispatch({
+        actionType: ActionTypes.LOGIN,
+        json: data,
+        errors: null
+      });
+    }).catch(function(error) {
+        AppDispatcher.dispatch({
+          actionType: ActionTypes.LOGIN,
+          json: null,
+          errors: error
+        });
+    });
+  },
+
+  logout() {
+    AppDispatcher.dispatch({
+      actionType: ActionTypes.SIGN_OUT
+    });
+  },
+
   createSite(site) {
     window.fetch('http://api.stevenlocal.com:3001/v1/sites', {
       method: 'POST',

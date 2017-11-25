@@ -35,13 +35,20 @@ class UserStore extends EventEmitter {
 
   // Switches over the action's type when an action is dispatched.
   _registerToActions(action) {
-    if(action && action.errors && action.errors.status === 400) {
-      // if at any point we receive a 401 from the server, it means our session is invalid
-      this._killSession();
+    if(action && action.errors && (action.errors.status === 400 || action.errors.status === 401)) {
+      this.logout();
     }
     switch(action.actionType) {
       case ActionTypes.SIGN_UP:
         this._signUp(action.json, action.errors);
+        break;
+
+      case ActionTypes.LOGIN:
+        this._login(action.json, action.errors);
+        break;
+
+      case ActionTypes.SIGN_OUT:
+        this.logout();
         break;
 
       default:
@@ -63,9 +70,23 @@ class UserStore extends EventEmitter {
     }
   }
 
-  _killSession() {
+  _login(data, errors) {
+    if (data) {
+      _authToken  = data.jwt;
+      Cookies.set('token', _authToken);
+    } else if (errors) {
+      _errors = errors;
+    }
+  }
+
+  logout() {
     _authToken = null;
     Cookies.remove('token');
+    var s = window.location.toString();
+    if (s.indexOf("login") === -1) {
+      var prefix = s.search("http://") >= 0 ? "http://" : "https://";
+      window.location.replace(prefix + window.location.host);
+    }
   }
 
   // Hooks a React component's callback to the CHANGE event.
