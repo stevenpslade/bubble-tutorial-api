@@ -5,8 +5,8 @@ import CreateSite from './components/CreateSite'
 
 class SignUp extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       user: UserStore.getUser(),
       authenticated: UserStore.isLoggedIn(),

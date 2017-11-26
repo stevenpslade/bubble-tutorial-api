@@ -32,6 +32,8 @@ class CreateSite extends Component {
     this.setState({
       site: SiteStore.getSite()
     });
+
+    console.log(this.state.site);
   }
 
   handleChange(event) {

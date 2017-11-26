@@ -5,8 +5,8 @@ import ServerActions from '../actions/ServerActionCreators'
 
 class Login extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       user: UserStore.getUser(),
       authenticated: UserStore.isLoggedIn(),

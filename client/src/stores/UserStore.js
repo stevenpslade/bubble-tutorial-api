@@ -3,6 +3,7 @@ import { EventEmitter } from 'events';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
 import ServerActions from '../actions/ServerActionCreators'
 import Cookies from 'js-cookie';
+import SiteStore from './SiteStore'
 
 const CHANGE = 'CHANGE';
 let _user    = {};
@@ -47,16 +48,38 @@ class UserStore extends EventEmitter {
 
       case ActionTypes.LOGIN:
         this._login(action.json, action.errors);
-        this.emit(CHANGE);
 
-        if(_errors === null) {
-          ServerActions.getTutorialsAndItems();
+        if (_errors === null) {
+          ServerActions.getUser();
+        } else {
+          this.emit(CHANGE);
         }
 
         break;
 
       case ActionTypes.SIGN_OUT:
         this.logout();
+        this.emit(CHANGE);
+        break;
+
+      case ActionTypes.GET_USER:
+        let data   = action.json;
+        let errors = action.errors;
+
+        if (data) {
+          _user = {
+            id: data.id,
+            email: data.attributes.email
+
+          }
+
+          let site_id = data.relationships.sites.data[0].id;
+          SiteStore.setSiteId(site_id);
+          ServerActions.getTutorialsAndItems(site_id);
+        } else if (errors) {
+          _errors = errors;
+        }
+
         this.emit(CHANGE);
         break;
 

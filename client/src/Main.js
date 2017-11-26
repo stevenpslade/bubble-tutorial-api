@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import UserStore from './stores/UserStore'
+import ServerActions from './actions/ServerActionCreators'
 import SignUp from './views/SignUp'
 import Login from './views/Login'
 import Bubble from './Bubble'
@@ -20,14 +21,19 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 class Main extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = { authenticated: UserStore.isLoggedIn() };
 
     this._onChange = this._onChange.bind(this);
   }
 
   componentWillMount() {
     UserStore.addChangeListener(this._onChange);
+
+    if (this.state.authenticated) {
+      ServerActions.getUser();
+    }
   }
 
   componentWillUnmount() {
@@ -35,7 +41,7 @@ class Main extends Component {
   }
 
   _onChange() {
-    // no on change actions yet
+    // on change stuff here
   }
 
   render() {

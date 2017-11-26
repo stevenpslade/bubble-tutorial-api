@@ -1,9 +1,11 @@
 import ActionTypes from '../constants/Constants.js';
 import { EventEmitter } from 'events';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
+import ServerActions from '../actions/ServerActionCreators'
 
 const CHANGE = 'CHANGE';
 let _site    = {};
+let _siteId  = null;
 let _errors  = null;
 
 class SiteStore extends EventEmitter {
@@ -17,6 +19,14 @@ class SiteStore extends EventEmitter {
     return _site;
   }
 
+  setSiteId(id){
+    _siteId = id;
+  }
+
+  getSiteId() {
+    return _siteId;
+  }
+
   getErrors() {
     return _errors;
   }
@@ -25,20 +35,25 @@ class SiteStore extends EventEmitter {
     switch(action.actionType) {
       case ActionTypes.CREATE_SITE:
         this._createSite(action.json, action.errors);
+        this.emit(CHANGE);
+
+        if (_errors === null) {
+          ServerActions.getTutorialsAndItems(_siteId);
+        }
+
         break;
 
       default:
         return true;
     }
 
-    this.emit(CHANGE);
     return true;
   }
 
   _createSite(data, errors) {
     if (data) {
-      _site.id = data.id;
-      _site.url = data.attributes.url;
+      _siteId  = data.id;
+      _site    = {id: data.id, url: data.attributes.url};
     } else if (errors) {
       _errors = errors;
     }

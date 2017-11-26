@@ -5,6 +5,7 @@ const ServerConstants = keyMirror({
   SIGN_OUT: null,
   LOGIN: null,
   CREATE_SITE: null,
+  GET_USER: null,
   GET_TUTORIALS: null
 });
 
