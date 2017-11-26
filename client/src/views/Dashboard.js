@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 
-class Bubble extends Component {
+class Dashboard extends Component {
 
   render() {
     return (
       <p>
-        Bubble Gum Tutorails go here!
+        Simple bubbles go here!
       </p>
     );
   }
 }
 
-export default Bubble
+export default Dashboard

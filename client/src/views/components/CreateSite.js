@@ -82,7 +82,7 @@ class CreateSite extends Component {
   render() {
     if (this.state.site.id) {
       return (
-        <Redirect to="/bubble"/>
+        <Redirect to="/dashboard"/>
       );
     }
 

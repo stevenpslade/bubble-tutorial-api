@@ -94,7 +94,7 @@ class Login extends Component {
   render() {
     if (this.state.authenticated) {
       return (
-        <Redirect to="/bubble"/>
+        <Redirect to="/dashboard"/>
       );
     }
 

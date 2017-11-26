@@ -4,7 +4,7 @@ import UserStore from './stores/UserStore'
 import ServerActions from './actions/ServerActionCreators'
 import SignUp from './views/SignUp'
 import Login from './views/Login'
-import Bubble from './Bubble'
+import Dashboard from './views/Dashboard'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
@@ -51,7 +51,7 @@ class Main extends Component {
           <Route exact path='/' component={SignUp}/>
           <Route path='/signup' component={SignUp}/>
           <Route path='/login' component={Login}/>
-          <PrivateRoute path='/bubble' component={Bubble}/>
+          <PrivateRoute path='/dashboard' component={Dashboard}/>
         </Switch>
       </main>
     );

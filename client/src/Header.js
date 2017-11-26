@@ -28,7 +28,7 @@ class Header extends Component {
       <nav>
         <ul>
           {this.loggedInDependentLinks()}
-          <li key="bubble"><Link to='/bubble'>Bubble</Link></li>
+          <li key="dashboard"><Link to='/dashboard'>Dashboard</Link></li>
         </ul>
       </nav>
     </header>
