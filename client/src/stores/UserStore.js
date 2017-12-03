@@ -23,6 +23,10 @@ class UserStore extends EventEmitter {
     return _user;
   }
 
+  getUserId() {
+    return _user.id;
+  }
+
   getAuthToken() {
     return _authToken;
   }

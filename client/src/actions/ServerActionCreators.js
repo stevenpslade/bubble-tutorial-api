@@ -90,7 +90,6 @@ const Actions = {
         errors: data.errors
       });
     }).catch(function(error) {
-        console.log(error);
         AppDispatcher.dispatch({
           actionType: ActionTypes.CREATE_SITE,
           json: null,
@@ -155,7 +154,45 @@ const Actions = {
           errors: error
         });
     });
-  }
+  },
+
+  addTutorial(tutorial) {
+    window.fetch(`http://api.stevenlocal.com:3001/v1/sites/${tutorial.siteId}/tutorials`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + UserStore.getAuthToken()
+      },
+      body: JSON.stringify({"tutorial":{
+        name: tutorial.name,
+        page_url: tutorial.pageUrl,
+        skippable: tutorial.skippable,
+        show_steps: tutorial.showSteps,
+        active: true,
+        user_id: tutorial.userId,
+        site_id: tutorial.siteId
+      }})
+    })
+    .then(function(response) {
+      if (!response.ok) {
+          throw response;
+      }
+
+      return response.json();
+    }).then(function(data) {
+      AppDispatcher.dispatch({
+        actionType: ActionTypes.CREATE_TUTORIAL,
+        json: data.data,
+        errors: data.errors
+      });
+    }).catch(function(error) {
+        AppDispatcher.dispatch({
+          actionType: ActionTypes.CREATE_TUTORIAL,
+          json: null,
+          errors: error
+        });
+    });
+  },
 
 };
 

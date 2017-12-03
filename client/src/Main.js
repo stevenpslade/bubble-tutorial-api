@@ -5,6 +5,7 @@ import ServerActions from './actions/ServerActionCreators'
 import SignUp from './views/SignUp'
 import Login from './views/Login'
 import Dashboard from './views/Dashboard'
+import CreateTutorial from './views/CreateTutorial'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
@@ -52,6 +53,7 @@ class Main extends Component {
           <Route path='/signup' component={SignUp}/>
           <Route path='/login' component={Login}/>
           <PrivateRoute path='/dashboard' component={Dashboard}/>
+          <PrivateRoute path='/bubbles/add' component={CreateTutorial}/>
         </Switch>
       </main>
     );

@@ -6,7 +6,8 @@ const ServerConstants = keyMirror({
   LOGIN: null,
   CREATE_SITE: null,
   GET_USER: null,
-  GET_TUTORIALS: null
+  GET_TUTORIALS: null,
+  CREATE_TUTORIAL: null,
 });
 
 export default ServerConstants;

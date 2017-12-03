@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class Dashboard extends Component {
 
   render() {
     return (
-      <p>
-        Simple bubbles go here!
-      </p>
+      <div>
+        <p>Welcome to Simple Bubble!</p>
+        <ul>
+          <li><Link to='/bubbles/add'>Add Bubble Flow</Link></li>
+        </ul>
+      </div>
     );
   }
 }
