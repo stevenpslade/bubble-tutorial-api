@@ -144,7 +144,7 @@ const Actions = {
     }).then(function(data) {
       AppDispatcher.dispatch({
         actionType: ActionTypes.GET_TUTORIALS,
-        json: data.data,
+        json: data,
         errors: data.errors
       });
     }).catch(function(error) {
@@ -174,10 +174,6 @@ const Actions = {
       }})
     })
     .then(function(response) {
-      if (!response.ok) {
-          throw response;
-      }
-
       return response.json();
     }).then(function(data) {
       AppDispatcher.dispatch({
@@ -188,6 +184,39 @@ const Actions = {
     }).catch(function(error) {
         AppDispatcher.dispatch({
           actionType: ActionTypes.CREATE_TUTORIAL,
+          json: null,
+          errors: error
+        });
+    });
+  },
+
+  addTutorialItem(tutorialItem) {
+    window.fetch(`http://api.stevenlocal.com:3001/v1/tutorial_items`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + UserStore.getAuthToken()
+      },
+      body: JSON.stringify({"tutorial_item":{
+        title: tutorialItem.title,
+        content: tutorialItem.content,
+        order: tutorialItem.order,
+        css_selector: tutorialItem.cssSelector,
+        active: true,
+        tutorial_id: tutorialItem.tutorialId
+      }})
+    })
+    .then(function(response) {
+      return response.json();
+    }).then(function(data) {
+      AppDispatcher.dispatch({
+        actionType: ActionTypes.CREATE_TUTORIAL_ITEM,
+        json: data.data,
+        errors: data.errors
+      });
+    }).catch(function(error) {
+        AppDispatcher.dispatch({
+          actionType: ActionTypes.CREATE_TUTORIAL_ITEM,
           json: null,
           errors: error
         });

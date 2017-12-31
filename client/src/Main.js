@@ -53,7 +53,7 @@ class Main extends Component {
           <Route path='/signup' component={SignUp}/>
           <Route path='/login' component={Login}/>
           <PrivateRoute path='/dashboard' component={Dashboard}/>
-          <PrivateRoute path='/bubbles/add' component={CreateTutorial}/>
+          <PrivateRoute path='/bubbles/add/:tutorialId?' component={CreateTutorial}/>
         </Switch>
       </main>
     );

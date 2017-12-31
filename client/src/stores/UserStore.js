@@ -110,6 +110,10 @@ class UserStore extends EventEmitter {
       _authToken  = data.jwt;
       Cookies.set('token', _authToken);
     } else if (errors) {
+      if (errors.status === 404) {
+        errors = {"user":["Not found"]};
+      }
+
       _errors = errors;
     }
   }

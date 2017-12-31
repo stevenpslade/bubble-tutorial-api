@@ -21,7 +21,7 @@ module Api::V1
       if @tutorial_item.save
         render json: @tutorial_item, status: :created, location: v1_tutorial_item_url(@tutorial_item)
       else
-        render json: @tutorial_item.errors, status: :unprocessable_entity
+        render json: { errors: @tutorial_item.errors }, status: :unprocessable_entity
       end
     end
 

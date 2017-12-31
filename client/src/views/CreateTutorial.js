@@ -3,13 +3,17 @@ import ServerActions from '../actions/ServerActionCreators'
 import TutorialStore from '../stores/TutorialStore'
 import SiteStore from '../stores/SiteStore'
 import UserStore from '../stores/UserStore'
+import CreateTutorialItems from './components/CreateTutorialItems'
+import { Link } from 'react-router-dom'
 
 class CreateTutorial extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      errors: '',
       tutoialCreated: false,
+      tutorialId: null,
       tutorialItemsInProgress: true,
       name: '',
       pageUrl: '',
@@ -23,6 +27,21 @@ class CreateTutorial extends Component {
   }
 
   componentWillMount() {
+    const { match: { params } } = this.props;
+    
+    if (params.tutorialId) {
+      TutorialStore.setTutorialId(params.tutorialId);
+      TutorialStore.setTutorialCreated(true);
+
+      this.setState({
+        tutoialCreated: true,
+        tutorialId: params.tutorialId
+      });
+    } else {
+      TutorialStore.setTutorialId(this.state.tutorialId);
+      TutorialStore.setTutorialCreated(this.state.tutorialCreated);
+    }
+
     TutorialStore.addChangeListener(this._onChange);
   }
 
@@ -32,7 +51,9 @@ class CreateTutorial extends Component {
 
   _onChange() {
     this.setState({
-      tutoialCreated: TutorialStore.tutorialCreated()
+      tutoialCreated: TutorialStore.tutorialCreated(),
+      tutorialId: TutorialStore.getTutorialId(),
+      errors: TutorialStore.getErrors()
     });
   }
 
@@ -82,34 +103,44 @@ class CreateTutorial extends Component {
     );
   }
 
+  tutorialForm() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+        </label>
+        <label>
+          Page URL:
+          <input name="pageUrl" type="text" value={this.state.pageUrl} onChange={this.handleChange} />
+        </label>
+        <label>
+          Skippable:
+          <input name="skippable" type="checkbox" checked={this.state.skippable} onChange={this.handleChange} />
+        </label>
+        <label>
+          Show Steps:
+          <input name="showSteps" type="checkbox" checked={this.state.showSteps} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+
   render() {
+    let form = null;
     if (this.state.tutoialCreated) {
-      return (
-        <p>Tutorial items add here.</p>
-      );
+      form = <CreateTutorialItems tutorialId={this.state.tutorialId} />;
+    } else {
+      form = this.tutorialForm();
     }
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name:
-            <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
-          </label>
-          <label>
-            Page URL:
-            <input name="pageUrl" type="text" value={this.state.pageUrl} onChange={this.handleChange} />
-          </label>
-          <label>
-            Skippable:
-            <input name="skippable" type="checkbox" checked={this.state.skippable} onChange={this.handleChange} />
-          </label>
-          <label>
-            Show Steps:
-            <input name="showSteps" type="checkbox" checked={this.state.showSteps} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
+        {form}
+        <button>
+          <Link to='/dashboard'>Finish Tutorial & Items</Link>
+        </button>
         {this.getErrorMessages()}
       </div>
     );
