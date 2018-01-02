@@ -138,9 +138,9 @@ class CreateTutorial extends Component {
     return (
       <div>
         {form}
-        <button>
-          <Link to='/dashboard'>Finish Tutorial & Items</Link>
-        </button>
+        <Link to='/dashboard'>
+          <button>Finish Tutorial & Items</button>
+        </Link>
         {this.getErrorMessages()}
       </div>
     );
