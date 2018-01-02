@@ -2,10 +2,12 @@ import ActionTypes from '../constants/Constants.js';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
 import UserStore from '../stores/UserStore'
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Actions = {
 
   signUp(user) {
-    window.fetch('http://api.stevenlocal.com:3001/v1/users', {
+    window.fetch(API_URL + '/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -28,7 +30,7 @@ const Actions = {
   },
 
   login(user) {
-    window.fetch('http://api.stevenlocal.com:3001/v1/user_token', {
+    window.fetch(API_URL + '/user_token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -66,7 +68,7 @@ const Actions = {
   },
 
   createSite(site) {
-    window.fetch('http://api.stevenlocal.com:3001/v1/sites', {
+    window.fetch(API_URL + '/sites', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -99,7 +101,7 @@ const Actions = {
   },
 
   getUser() {
-    window.fetch('http://api.stevenlocal.com:3001/v1/get_current_user', {
+    window.fetch(API_URL + '/get_current_user', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
