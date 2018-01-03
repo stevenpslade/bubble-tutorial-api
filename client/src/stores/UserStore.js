@@ -2,13 +2,13 @@ import ActionTypes from '../constants/Constants.js';
 import { EventEmitter } from 'events';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
 import ServerActions from '../actions/ServerActionCreators';
-import Cookie from 'js-cookie';
+import Cookies from 'js-Cookies';
 import SiteStore from './SiteStore';
 
 const CHANGE = 'CHANGE';
 let _user    = {};
 let _errors  = null;
-let _authToken = Cookie.get('token') || null;
+let _authToken = Cookies.get('token') || null;
 
 class UserStore extends EventEmitter {
 
@@ -99,7 +99,7 @@ class UserStore extends EventEmitter {
       _user.id    = data.id;
       _user.email = data.attributes.email;
       _authToken  = data.attributes.auth_token;
-      Cookie.set('token', _authToken);
+      Cookies.set('token', _authToken);
     } else if (errors) {
       _errors = errors;
     }
@@ -108,7 +108,7 @@ class UserStore extends EventEmitter {
   _login(data, errors) {
     if (data) {
       _authToken  = data.jwt;
-      Cookie.set('token', _authToken);
+      Cookies.set('token', _authToken);
     } else if (errors) {
       if (errors.status === 404) {
         errors = {"user":["Not found"]};
@@ -120,7 +120,7 @@ class UserStore extends EventEmitter {
 
   logout() {
     _authToken = null;
-    Cookie.remove('token');
+    Cookies.remove('token');
     var s = window.location.toString();
     if (s.indexOf("login") === -1) {
       var prefix = s.search("http://") >= 0 ? "http://" : "https://";
