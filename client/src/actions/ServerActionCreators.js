@@ -1,6 +1,6 @@
 import ActionTypes from '../constants/Constants.js';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
-import UserStore from '../stores/UserStore'
+import UserStore from '../stores/UserStore';
 
 const API_URL = process.env.REACT_APP_API_URL;
 

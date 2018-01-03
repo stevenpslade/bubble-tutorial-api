@@ -1,9 +1,9 @@
 import ActionTypes from '../constants/Constants.js';
 import { EventEmitter } from 'events';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
-import ServerActions from '../actions/ServerActionCreators'
+import ServerActions from '../actions/ServerActionCreators';
 import * as Cookies from 'js-cookie';
-import SiteStore from './SiteStore'
+import SiteStore from './SiteStore';
 
 const CHANGE = 'CHANGE';
 let _user    = {};
