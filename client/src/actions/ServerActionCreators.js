@@ -130,7 +130,7 @@ const Actions = {
   },
 
   getTutorialsAndItems(site_id) {
-    window.fetch(`http://api.stevenlocal.com:3001/v1/sites/${site_id}/tutorials`, {
+    window.fetch(`${API_URL}/sites/${site_id}/tutorials`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ const Actions = {
   },
 
   addTutorial(tutorial) {
-    window.fetch(`http://api.stevenlocal.com:3001/v1/sites/${tutorial.siteId}/tutorials`, {
+    window.fetch(`${API_URL}/sites/${tutorial.siteId}/tutorials`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ const Actions = {
   },
 
   addTutorialItem(tutorialItem) {
-    window.fetch(`http://api.stevenlocal.com:3001/v1/tutorial_items`, {
+    window.fetch(`${API_URL}/tutorial_items`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
