@@ -11,6 +11,7 @@ let _tutorialCreated = false;
 // _tutorialData holds all tutorial data for a user
 let _tutorialData    = null;
 // _tutorial & _tutorialItems are for whatever tutorial is being added or edited by the user
+// will basically act as a 'this' tutorial
 let _tutorial        = {};
 let _tutorialItems   = [];
 
@@ -44,8 +45,8 @@ class TutorialStore extends EventEmitter {
   _registerToActions(action) {
     switch(action.actionType) {
       case ActionTypes.GET_TUTORIALS:
-        // this._parseTutorialData(action.json);
-        // this.emit(CHANGE);
+        this._parseTutorialData(action.json);
+        this.emit(CHANGE);
         break;
 
       case ActionTypes.CREATE_TUTORIAL:
@@ -83,41 +84,37 @@ class TutorialStore extends EventEmitter {
     }
   }
 
-  // _parseTutorialData(data) {
-  //   var dataArray = data.data;
-  //   var includedArray = data.included;
+  _parseTutorialData(data) {
+    let dataArray = data.data;
+    let includedArray = data.included;
+    let tutorialsArray = [];
 
-  //   // if (includedArray.length === 0) {
-  //   //   console.log("included member is empty; no tutorial items");
-  //   //   return;
-  //   // }
+    for (let i = 0; i < dataArray.length; i++) {
+      dataArray[i]['attributes']['id'] = dataArray[i]['id'];
 
-  //   var tutorialsArray = [];
+      let tutorial = dataArray[i]['attributes'];
+      tutorial.tutorialItems = [];
 
-  //   for (var i = 0; i < dataArray.length; i++) {
-  //     dataArray[i]['attributes']['id'] = dataArray[i]['id'];
-  //     var tutorial = { dataArray[i]['attributes'] };
-  //     var tutorialItemRelationships = dataArray[i]['relationships']['tutorial_items']['data'];
+      let tutorialItemRelationships = dataArray[i]['relationships']['tutorial_items']['data'];
 
-  //     for (var j = 0; j < includedArray.length; j++) {
-  //       var tutorialItemId = includedArray[j]['id'];
+      for (let j = 0; j < includedArray.length; j++) {
+        let tutorialItemId = includedArray[j]['id'];
 
-  //       for (var t = 0; t < tutorialItemRelationships.length; t++) {
-  //         var relId = tutorialItemRelationships[t]['id'];
+        for (let t = 0; t < tutorialItemRelationships.length; t++) {
+          let relId = tutorialItemRelationships[t]['id'];
 
-  //         if (relId === tutorialItemId) {
-  //           tutorial.tutorialItems.push({ dataArray[i]['id'], includedArray[j]['attributes'] });
-  //         }
-  //       }
-  //     }
+          if (relId === tutorialItemId) {
+            includedArray[j]['attributes'].id = tutorialItemId;
+            tutorial.tutorialItems.push(includedArray[j]['attributes']);
+          }
+        }
+      }
 
-  //     tutorialsArray.push(tutorial);
-  //   }
+      tutorialsArray.push(tutorial);
+    }
 
-  //   _tutorialData = tutorialsArray;
-
-  //   console.log(_tutorialData);
-  // }
+    _tutorialData = tutorialsArray;
+  }
 
   addChangeListener(callback) {
     this.on(CHANGE, callback);
