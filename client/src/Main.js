@@ -49,7 +49,7 @@ class Main extends Component {
     return (
       <main>
         <Switch>
-          <Route exact path='/' component={SignUp}/>
+          <PrivateRoute exact path='/' component={Dashboard}/>
           <Route path='/signup' component={SignUp}/>
           <Route path='/login' component={Login}/>
           <PrivateRoute path='/dashboard' component={Dashboard}/>
