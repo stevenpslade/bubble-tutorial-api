@@ -42,6 +42,22 @@ class TutorialStore extends EventEmitter {
     _tutorialCreated = flag;
   }
 
+  getTutorialData(tutorialId = null) {
+    if (tutorialId > 0) {
+      // get a specific tutorial
+      for (let i = 0; i < _tutorialData.length; i++) {
+        let tutorial = _tutorialData[i];
+
+        if (tutorial.id === tutorialId) {
+          return tutorial;
+        }
+      }
+    } else {
+      // show all tutorial data
+      return _tutorialData;
+    }
+  }
+
   _registerToActions(action) {
     switch(action.actionType) {
       case ActionTypes.GET_TUTORIALS:

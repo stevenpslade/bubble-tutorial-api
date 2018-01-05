@@ -9,6 +9,7 @@ class Dashboard extends Component {
         <p>Welcome to Simple Bubble!</p>
         <ul>
           <li><Link to='/bubbles/add'>Add Bubble Flow</Link></li>
+          <li><Link to='/bubbles'>Show Bubbles</Link></li>
         </ul>
       </div>
     );
