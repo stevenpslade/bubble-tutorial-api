@@ -36,10 +36,10 @@ class Tutorial extends Component {
       for (let i = 0; i < tutorialData.length; i++) {
         let tutorial = tutorialData[i];
 
-        tutorialList.push(<li>{tutorial.name}</li>)
+        tutorialList.push(<li key={tutorial.id}>{tutorial.name}</li>)
       }
     } else {
-      tutorialList.push(<li>Nothing found :(</li>)
+      tutorialList.push(<li key="nothingFound">Nothing found</li>)
     }
 
     return (

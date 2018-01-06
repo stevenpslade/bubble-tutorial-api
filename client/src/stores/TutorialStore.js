@@ -48,8 +48,10 @@ class TutorialStore extends EventEmitter {
       for (let i = 0; i < _tutorialData.length; i++) {
         let tutorial = _tutorialData[i];
 
-        if (tutorial.id === tutorialId) {
-          return tutorial;
+        if (tutorial.id === tutorialId.toString()) {
+          let singleTutorialArr = [];
+          singleTutorialArr.push(tutorial);
+          return singleTutorialArr;
         }
       }
     } else {
