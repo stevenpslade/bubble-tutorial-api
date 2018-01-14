@@ -27,7 +27,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    let scriptCode = `<script id="bubbleScript" attr-site_id="${this.state.siteId}" src="https://www.stevenpslade.com/tutorial.js"></script>`;
+    let scriptCode = `<script id="bubbleScript" site_id="${this.state.siteId}" src="https://www.stevenpslade.com/tutorial.js"></script>`;
 
     return (
       <div>
