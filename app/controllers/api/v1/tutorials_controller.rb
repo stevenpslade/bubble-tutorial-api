@@ -48,7 +48,7 @@ module Api::V1
         site_url = Site.find(params[:site_id]).url
 
         if request.origin != site_url && !current_user
-          render json: { status: 403, errors: 'Not Authorized' }, status: 403
+          render json: { status: 403, errors: 'Not Authorized', origin: request.origin, site: site_url }, status: 403
         end
       end
       # Use callbacks to share common setup or constraints between actions.
