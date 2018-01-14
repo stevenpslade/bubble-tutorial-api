@@ -1,0 +1,70 @@
+.bubble {
+  background-color: rgb(24, 123, 208);
+  box-shadow: 4px 4px 0px #0a375f;
+  color: white;
+  max-width: 340px;
+  padding: 0.8em 1.3em;
+  border-radius: 0.5em;
+  font-size: 1.3em;
+  z-index: 9999;
+  position: absolute;
+}
+
+.bubble .bubble-title {
+  font-weight: 900;
+  font-size: 1.2em;
+}
+
+.bubble .bubble-action {
+  background-color: rgb(9, 55, 95);
+  padding: 0.3em 0.7em;
+  border-radius: 0.3em;
+  font-weight: 900;
+  text-align: center;
+  float: right;
+  margin-top: 0.5em;
+  cursor: pointer;
+}
+
+.bubble .bubble-arrow {
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-color: #187bd0;
+    margin-right: 0px;
+    margin-left: 0px;
+    position: absolute;
+}
+
+.bubble[x-placement^="top"] .bubble-arrow {
+  border-width: 1em 1em 0 1em;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  bottom: -21px;
+}
+
+.bubble[x-placement^="right"] .bubble-arrow {
+  border-width: 1em 1em 1em 0;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  top: calc(50% - 5px);
+}
+
+.bubble[x-placement^="bottom"] .bubble-arrow {
+  border-width: 0 1em 1em 1em;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  top: -21px;
+}
+
+.bubble[x-placement^="left"] .bubble-arrow {
+  border-width: 1em 0 1em 1em;
+  border-bottom-color: transparent;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  right: -14%;
+  top: calc(50% - 5px);
+}
