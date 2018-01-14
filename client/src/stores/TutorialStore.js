@@ -43,7 +43,7 @@ class TutorialStore extends EventEmitter {
   }
 
   getTutorialData(tutorialId = null) {
-    if (tutorialId > 0) {
+    if (tutorialId > 0 && _tutorialData !== null) {
       // get a specific tutorial
       for (let i = 0; i < _tutorialData.length; i++) {
         let tutorial = _tutorialData[i];
@@ -51,7 +51,7 @@ class TutorialStore extends EventEmitter {
         if (tutorial.id === tutorialId.toString()) {
           let singleTutorialArr = [];
           singleTutorialArr.push(tutorial);
-          return singleTutorialArr;
+          return singleTutorialArr[0];
         }
       }
     } else {

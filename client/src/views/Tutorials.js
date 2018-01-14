@@ -35,8 +35,8 @@ class Tutorial extends Component {
 
       for (let i = 0; i < tutorialData.length; i++) {
         let tutorial = tutorialData[i];
-
-        tutorialList.push(<li key={tutorial.id}>{tutorial.name}</li>)
+        let tutorialLink = '/bubbles/' + tutorial.id;
+        tutorialList.push(<li key={tutorial.id}><Link to={tutorialLink}>{tutorial.name}</Link></li>)
       }
     } else {
       tutorialList.push(<li key="nothingFound">Nothing found</li>)
