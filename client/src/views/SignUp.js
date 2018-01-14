@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import UserStore from '../stores/UserStore'
+import SiteStore from '../stores/SiteStore'
 import ServerActions from '../actions/ServerActionCreators'
 import CreateSite from './components/CreateSite'
 
@@ -9,6 +11,7 @@ class SignUp extends Component {
     super(props);
     this.state = {
       user: UserStore.getUser(),
+      siteId: SiteStore.getSiteId(),
       authenticated: UserStore.isLoggedIn(),
       errors: '',
       email: '',
@@ -32,6 +35,7 @@ class SignUp extends Component {
   _onChange() {
     this.setState({
       user: UserStore.getUser(),
+      siteId: SiteStore.getSiteId(),
       errors: UserStore.getErrors(),
       authenticated: UserStore.isLoggedIn()
     });
@@ -94,9 +98,13 @@ class SignUp extends Component {
   }
 
   render() {
-    if (this.state.authenticated) {
+    if (this.state.authenticated && this.state.siteId === null) {
       return (
         <CreateSite />
+      );
+    } else if (this.state.authenticated && this.state.siteId !== null) {
+      return (
+        <Redirect to="/dashboard"/>
       );
     }
 

@@ -21,6 +21,7 @@ class SiteStore extends EventEmitter {
 
   setSiteId(id){
     _siteId = id;
+    this.emit(CHANGE);
   }
 
   getSiteId() {
