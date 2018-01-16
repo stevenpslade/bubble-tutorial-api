@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import UserStore from '../stores/UserStore'
 import ServerActions from '../actions/ServerActionCreators'
+import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+require('../style/login.css');
 
 class Login extends Component {
 
@@ -12,7 +14,8 @@ class Login extends Component {
       authenticated: UserStore.isLoggedIn(),
       errors: '',
       email: '',
-      password: ''
+      password: '',
+      loading: false
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -32,7 +35,8 @@ class Login extends Component {
     this.setState({
       user: UserStore.getUser(),
       errors: UserStore.getErrors(),
-      authenticated: UserStore.isLoggedIn()
+      authenticated: UserStore.isLoggedIn(),
+      loading: false
     });
   }
 
@@ -49,25 +53,14 @@ class Login extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    this.setState({ loading: true });
+
     let submitObject = {
       email: this.state.email,
       password: this.state.password
     }
 
     ServerActions.login(submitObject);
-  }
-
-  showWelcomeUserMessage() {
-    let message = '';
-    if (this.state.user.email) {
-      message = 'Welcome, ' + this.state.user.email;
-    } else {
-      message = 'No user found.';
-    }
-
-    return (
-      <p>{message}</p>
-    );
   }
 
   getErrorMessages() {
@@ -77,18 +70,23 @@ class Login extends Component {
       let errorCnt = 0;
       for (const error in errorObj) {
         message.push(
-          <p key={errorCnt}>Error with {error}: {errorObj[error][0]}</p>
+          error + ': ' + errorObj[error][0]
         );
 
         errorCnt++;
       }
-    } else {
-      message = 'No Errors.';
-    }
 
-    return (
-      <div>{message}</div>
-    );
+      return (
+        <Message
+          floating
+          error
+          header='Error'
+          list={message}
+        />
+      );
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -99,20 +97,24 @@ class Login extends Component {
     }
 
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Email:
-            <input name="email" type="text" value={this.state.email} onChange={this.handleChange} />
-          </label>
-          <label>
-            Password:
-            <input name="password" type="password" value={this.state.password} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        {this.showWelcomeUserMessage()}
-        {this.getErrorMessages()}
+      <div className='loginForm'>
+        <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as='h2' color='pink' textAlign='center'>
+              Sign in to SimpleBubble
+            </Header>
+            <Form size='large' onSubmit={this.handleSubmit} loading={this.state.loading}>
+              <Segment>
+                <Form.Input name='email' value={this.state.email} onChange={this.handleChange} fluid icon='user' iconPosition='left' placeholder='Email address' error={this.getErrorMessages() !== null ? true : false}/>
+                <Form.Input name='password' value={this.state.password} onChange={this.handleChange} fluid icon='lock' iconPosition='left' placeholder='Password' type='password' error={this.getErrorMessages() !== null ? true : false}/>
+                <Form.Button content='SIGN IN' color='pink' fluid size='large' />
+              </Segment>
+            </Form>
+            <Message>
+              Don't have an account? <a href='#'>Sign Up</a>
+            </Message>
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }
