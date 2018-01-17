@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import UserStore from './stores/UserStore'
+import { Menu, Icon } from 'semantic-ui-react'
 
 class Header extends Component {
 
@@ -9,13 +10,11 @@ class Header extends Component {
   }
 
   loggedInDependentLinks() {
-    let links = '';
+    let links = [];
     if (UserStore.isLoggedIn()) {
-      links = (<li key="sign-out"><button onClick={this.logout}>Sign Out</button></li>);
-    } else {
       links = [
-        <li key="sign-up"><Link to='/signup'>Sign Up</Link></li>,
-        <li key="login"><Link to='/login'>Login</Link></li>
+        <li key="sign-out"><button onClick={this.logout}>Sign Out</button></li>,
+        <li key="dashboard"><Link to='/dashboard'>Dashboard</Link></li>
       ];
     }
 
@@ -24,14 +23,9 @@ class Header extends Component {
 
   render() {
     return (
-      <header>
-      <nav>
-        <ul>
-          {this.loggedInDependentLinks()}
-          <li key="dashboard"><Link to='/dashboard'>Dashboard</Link></li>
-        </ul>
-      </nav>
-    </header>
+      <Menu color='pink' inverted size='massive' borderless fixed='top'>
+        <Menu.Item className='headerBrandText' header>SimpleBubble</Menu.Item>
+      </Menu>
     );
   }
 }
