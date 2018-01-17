@@ -8,3 +8,7 @@ body > div > div > main,
 body > div > div > main > div.loginForm {
   height: 100%;
 }
+
+div.loginForm .signUpLink {
+  color: #e03997;
+}

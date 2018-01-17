@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import UserStore from '../stores/UserStore'
 import ServerActions from '../actions/ServerActionCreators'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
@@ -60,7 +60,9 @@ class Login extends Component {
       password: this.state.password
     }
 
-    ServerActions.login(submitObject);
+    setTimeout(function () {
+      ServerActions.login(submitObject);
+    }, 500);
   }
 
   getErrorMessages() {
@@ -111,7 +113,7 @@ class Login extends Component {
               </Segment>
             </Form>
             <Message>
-              Don't have an account? <a href='#'>Sign Up</a>
+              Don't have an account? <Link className='signUpLink' to='/signup'>Sign Up</Link>
             </Message>
           </Grid.Column>
         </Grid>
