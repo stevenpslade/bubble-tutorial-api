@@ -3,6 +3,8 @@ import { Redirect } from 'react-router-dom'
 import SiteStore from '../../stores/SiteStore'
 import UserStore from '../../stores/UserStore'
 import ServerActions from '../../actions/ServerActionCreators'
+import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+require('../../style/components/createSite.css');
 
 class CreateSite extends Component {
 
@@ -12,7 +14,8 @@ class CreateSite extends Component {
     this.state = {
       site: '',
       url: '',
-      errors: ''
+      errors: '',
+      loading: false
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -30,10 +33,10 @@ class CreateSite extends Component {
 
   _onChange() {
     this.setState({
-      site: SiteStore.getSite()
+      site: SiteStore.getSite(),
+      errors: SiteStore.getErrors(),
+      loading: false
     });
-
-    console.log(this.state.site);
   }
 
   handleChange(event) {
@@ -49,6 +52,8 @@ class CreateSite extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    this.setState({loading: true});
+
     let user = UserStore.getUser();
     let submitObject = {
       url: this.state.url,
@@ -59,24 +64,15 @@ class CreateSite extends Component {
   }
 
   getErrorMessages() {
-    let message = [];
+    let messages = [];
     if (this.state.errors) {
       let errorObj = this.state.errors;
-      let errorCnt = 0;
       for (const error in errorObj) {
-        message.push(
-          <p key={errorCnt}>Error with {error}: {errorObj[error][0]}</p>
-        );
-
-        errorCnt++;
+        messages.push(error + ': ' + errorObj[error][0]);
       }
-    } else {
-      message = 'No Errors.';
     }
 
-    return (
-      <div>{message}</div>
-    );
+    return messages;
   }
 
   render() {
@@ -87,15 +83,21 @@ class CreateSite extends Component {
     }
 
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Site URL:
-            <input name="url" type="text" value={this.state.url} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        {this.getErrorMessages()}
+      <div className='addSiteForm'>
+        <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as='h2' color='pink' textAlign='center'>
+              Add your site
+            </Header>
+            <Form size='large' onSubmit={this.handleSubmit} loading={this.state.loading} error={this.getErrorMessages().length > 0 ? true : false}>
+              <Segment>
+                <Form.Input name='url' value={this.state.url} onChange={this.handleChange} fluid icon='browser' iconPosition='left' placeholder='https://www.example.com' />
+                <Message error list={this.getErrorMessages()} />
+                <Form.Button content='FINISH' color='pink' fluid size='large' />
+              </Segment>
+            </Form>
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }

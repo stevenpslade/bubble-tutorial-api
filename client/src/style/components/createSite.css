@@ -1,0 +1,6 @@
+body > div,
+body > div > div,
+body > div > div > main,
+body > div > div > main > div.addSiteForm {
+  height: 100%;
+}

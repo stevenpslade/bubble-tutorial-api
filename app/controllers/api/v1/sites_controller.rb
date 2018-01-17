@@ -21,7 +21,7 @@ module Api::V1
       if @site.save
         render json: @site, status: :created, location: v1_site_url(@site)
       else
-        render json: @site.errors, status: :unprocessable_entity
+        render json: { errors: @site.errors }, status: :unprocessable_entity
       end
     end
 

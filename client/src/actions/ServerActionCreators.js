@@ -80,10 +80,6 @@ const Actions = {
       }})
     })
     .then(function(response) {
-      if (!response.ok) {
-          throw response;
-      }
-
       return response.json();
     }).then(function(data) {
       AppDispatcher.dispatch({
@@ -91,12 +87,6 @@ const Actions = {
         json: data.data,
         errors: data.errors
       });
-    }).catch(function(error) {
-        AppDispatcher.dispatch({
-          actionType: ActionTypes.CREATE_SITE,
-          json: null,
-          errors: error
-        });
     });
   },
 
