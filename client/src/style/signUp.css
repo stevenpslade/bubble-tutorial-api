@@ -1,0 +1,14 @@
+html, body {
+    background: #f7f7f7;
+}
+
+body > div,
+body > div > div,
+body > div > div > main,
+body > div > div > main > div.signUpForm {
+  height: 100%;
+}
+
+div.signUpForm .loginLink {
+  color: #e03997;
+}

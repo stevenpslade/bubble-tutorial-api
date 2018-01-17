@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import UserStore from '../stores/UserStore'
 import SiteStore from '../stores/SiteStore'
 import ServerActions from '../actions/ServerActionCreators'
 import CreateSite from './components/CreateSite'
+import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+require('../style/signUp.css');
 
 class SignUp extends Component {
 
@@ -16,7 +18,8 @@ class SignUp extends Component {
       errors: '',
       email: '',
       password: '',
-      password_confirmation: ''
+      password_confirmation: '',
+      loading: false
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -37,7 +40,8 @@ class SignUp extends Component {
       user: UserStore.getUser(),
       siteId: SiteStore.getSiteId(),
       errors: UserStore.getErrors(),
-      authenticated: UserStore.isLoggedIn()
+      authenticated: UserStore.isLoggedIn(),
+      loading: false
     });
   }
 
@@ -54,47 +58,29 @@ class SignUp extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    this.setState({ loading: true });
+
     let submitObject = {
       email: this.state.email,
       password: this.state.password,
       password_confirmation: this.state.password_confirmation
     }
 
-    ServerActions.signUp(submitObject);
-  }
-
-  showWelcomeUserMessage() {
-    let message = '';
-    if (this.state.user.email) {
-      message = 'Welcome, ' + this.state.user.email;
-    } else {
-      message = 'No user found.';
-    }
-
-    return (
-      <p>{message}</p>
-    );
+    setTimeout(function () {
+      ServerActions.signUp(submitObject);
+    }, 500);
   }
 
   getErrorMessages() {
-    let message = [];
+    let messages = [];
     if (this.state.errors) {
       let errorObj = this.state.errors;
-      let errorCnt = 0;
       for (const error in errorObj) {
-        message.push(
-          <p key={errorCnt}>Error with {error}: {errorObj[error][0]}</p>
-        );
-
-        errorCnt++;
+        messages.push(error + ': ' + errorObj[error][0]);
       }
-    } else {
-      message = 'No Errors.';
     }
 
-    return (
-      <div>{message}</div>
-    );
+    return messages;
   }
 
   render() {
@@ -109,24 +95,26 @@ class SignUp extends Component {
     }
 
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Email:
-            <input name="email" type="text" value={this.state.email} onChange={this.handleChange} />
-          </label>
-          <label>
-            Password:
-            <input name="password" type="password" value={this.state.password} onChange={this.handleChange} />
-          </label>
-          <label>
-            Password Confirmation:
-            <input name="password_confirmation" type="password" value={this.state.password_confirmation} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        {this.showWelcomeUserMessage()}
-        {this.getErrorMessages()}
+      <div className='signUpForm'>
+        <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as='h2' color='pink' textAlign='center'>
+              Create your account
+            </Header>
+            <Form size='large' onSubmit={this.handleSubmit} loading={this.state.loading} error={this.getErrorMessages().length > 0 ? true: false}>
+              <Segment>
+                <Form.Input name='email' value={this.state.email} onChange={this.handleChange} fluid icon='user' iconPosition='left' placeholder='Email address' />
+                <Form.Input name='password' value={this.state.password} onChange={this.handleChange} fluid icon='lock' iconPosition='left' placeholder='Password' type='password' />
+                <Form.Input name='password_confirmation' value={this.state.password_confirmation} onChange={this.handleChange} fluid icon='lock' iconPosition='left' placeholder='Confirm Password' type='password' />
+                <Message error list={this.getErrorMessages()} />
+                <Form.Button content='SUBMIT' color='pink' fluid size='large' />
+              </Segment>
+            </Form>
+            <Message>
+              Already have an account? <Link className='loginLink' to='/login'>Login</Link>
+            </Message>
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }
