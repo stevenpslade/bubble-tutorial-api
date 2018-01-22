@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom'
 import UserStore from '../stores/UserStore'
 import ServerActions from '../actions/ServerActionCreators'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
-require('../style/login.css');
+import '../style/login.css'
 
 class Login extends Component {
 
