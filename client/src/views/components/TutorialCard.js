@@ -14,7 +14,7 @@ class TutorialCard extends Component {
         <Item.Content style={{ padding: '0em 1em' }}>
           <Item.Header as='a'>{this.props.title}</Item.Header>
           <Item.Extra>
-            <Button floated='right'>
+            <Button basic floated='right' onClick={this.props.handleViewItems}>
               View
             </Button>
             <Label color='pink'><Icon name='comment' />{this.props.itemCount}</Label>

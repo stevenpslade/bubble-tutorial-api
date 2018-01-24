@@ -11,7 +11,8 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       siteId: SiteStore.getSiteId(),
-      tutorialData: TutorialStore.getTutorialData()
+      tutorialData: TutorialStore.getTutorialData(),
+      selectedTutorial: null
     }
 
     this._onChange = this._onChange.bind(this);
@@ -34,6 +35,10 @@ class Dashboard extends Component {
     });
   }
 
+  displayTutorialItems() {
+    console.log('clicked');
+  }
+
   getTutorialCards() {
     let tutorialList = [];
 
@@ -43,12 +48,12 @@ class Dashboard extends Component {
       for (let i = 0; i < tutorialData.length; i++) {
         let tutorial = tutorialData[i];
         //let tutorialLink = '/bubbles/' + tutorial.id;
-        tutorialList.push(<TutorialCard id={tutorial.id} title={tutorial.name} itemCount={tutorial.tutorialItems.length} />);
+        tutorialList.push(<TutorialCard key={tutorial.id} id={tutorial.id} title={tutorial.name} itemCount={tutorial.tutorialItems.length} handleViewItems={this.displayTutorialItems.bind(this)} />);
       }
     }
 
     return (
-      <Item.Group divided>
+      <Item.Group divided className='tutorialList'>
         {tutorialList}
       </Item.Group>
     );
@@ -57,36 +62,67 @@ class Dashboard extends Component {
   render() {
     let scriptCode = `<script id="bubbleScript" site_id="${this.state.siteId}" src="https://www.stevenpslade.com/tutorial.js"></script>`;
 
-    // return (
-    //   <div>
-    //     <p>Welcome to Simple Bubble!</p>
-    //     <ul>
-    //       <li><Link to='/bubbles/add'>Add Bubble Flow</Link></li>
-    //       <li><Link to='/bubbles'>Show Bubbles</Link></li>
-    //     </ul>
-
-    //     <p>Your bubble code:</p>
-    //     <pre>{scriptCode}</pre>
-    //   </div>
-    // );
-
     return (
       <div className='dashboardContainer'>
         <Container>
           <Segment.Group raised>
             <Segment>
               <Header as='h4' color='pink'>
-                Your Bubbles
+                Your Streams
               </Header>
             </Segment>
-            <Segment style={{ padding: '0em' }} vertical>
-              <Grid celled='internally' columns='2'>
+            <Segment style={{ padding: '0em' }}>
+              <Grid celled='internally' columns='2' style={{ minHeight: '35em' }}>
                 <Grid.Row>
-                  <Grid.Column width={5} style={{ padding: '1em 0em', backgroundColor: 'white' }}>
+                  <Grid.Column width={5} style={{ padding: '0em 0em 1em 0em', backgroundColor: 'white' }}>
                   {this.getTutorialCards()}
                   </Grid.Column>
-                  <Grid.Column>
-                    col 2
+                  <Grid.Column width={11} style={{ padding: '0em 0em 1em 0em', backgroundColor: 'white' }}>
+                    <Segment attached style={{ borderTop: 'none', backgroundColor: '#f7f7f7' }}>
+                      <Header as='h5' color='pink'>
+                        Bubbles
+                      </Header>
+                    </Segment>
+
+                    <Item.Group divided>
+                      <Item>
+                        <Item.Content style={{ padding: '0em 1em' }}>
+                          <Item.Header>
+                            Bubble Title
+                          </Item.Header>
+                          <Item.Description>
+                            <p>
+                              Many people also have their own barometers for what makes a cute dog.
+                            </p>
+                          </Item.Description>
+                        </Item.Content>
+                      </Item>
+                      <Item>
+                        <Item.Content style={{ padding: '0em 1em' }}>
+                          <Item.Header>
+                            Bubble Title
+                          </Item.Header>
+                          <Item.Description>
+                            <p>
+                              Many people also have their own barometers for what makes a cute dog.
+                            </p>
+                          </Item.Description>
+                        </Item.Content>
+                      </Item>
+                      <Item>
+                        <Item.Content style={{ padding: '0em 1em' }}>
+                          <Item.Header>
+                            Bubble Title
+                          </Item.Header>
+                          <Item.Description>
+                            <p>
+                              Many people also have their own barometers for what makes a cute dog.
+                            </p>
+                          </Item.Description>
+                        </Item.Content>
+                      </Item>
+                    </Item.Group>
+
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
