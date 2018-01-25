@@ -35,8 +35,10 @@ class Dashboard extends Component {
     });
   }
 
-  displayTutorialItems() {
-    console.log('clicked');
+  selectTutorial(itemId) {
+    this.setState({
+      selectedTutorial: TutorialStore.getTutorialData(itemId)
+    });
   }
 
   getTutorialCards() {
@@ -48,7 +50,7 @@ class Dashboard extends Component {
       for (let i = 0; i < tutorialData.length; i++) {
         let tutorial = tutorialData[i];
         //let tutorialLink = '/bubbles/' + tutorial.id;
-        tutorialList.push(<TutorialCard key={tutorial.id} id={tutorial.id} title={tutorial.name} itemCount={tutorial.tutorialItems.length} handleViewItems={this.displayTutorialItems.bind(this)} />);
+        tutorialList.push(<TutorialCard key={tutorial.id} id={tutorial.id} title={tutorial.name} itemCount={tutorial.tutorialItems.length} handleViewItems={this.selectTutorial.bind(this)} />);
       }
     }
 
@@ -56,6 +58,38 @@ class Dashboard extends Component {
       <Item.Group divided className='tutorialList'>
         {tutorialList}
       </Item.Group>
+    );
+  }
+
+  getTutorialItemsView() {
+    let tutorialItems = [];
+    let itemsHeader = null;
+
+    if (this.state.selectedTutorial) {
+      itemsHeader = (
+          <Segment attached style={{ borderTop: 'none', backgroundColor: '#f7f7f7' }}>
+            <Header as='h5' color='pink'>
+              Bubbles
+            </Header>
+          </Segment>
+        );
+
+      let selectedTutorialItems = this.state.selectedTutorial.tutorialItems;
+
+      for (let i = 0; i < selectedTutorialItems.length; i++) {
+        let item = selectedTutorialItems[i];
+
+        tutorialItems.push(<TutorialCard item key={item.id} id={item.id} title={item.title} content={item.content} />);
+      }
+    }
+
+    return (
+      <Grid.Column width={11} style={{ padding: '0em 0em 1em 0em', backgroundColor: 'white' }}>
+        {itemsHeader}
+        <Item.Group divided>
+          {tutorialItems}
+        </Item.Group>
+      </Grid.Column>
     );
   }
 
@@ -77,53 +111,7 @@ class Dashboard extends Component {
                   <Grid.Column width={5} style={{ padding: '0em 0em 1em 0em', backgroundColor: 'white' }}>
                   {this.getTutorialCards()}
                   </Grid.Column>
-                  <Grid.Column width={11} style={{ padding: '0em 0em 1em 0em', backgroundColor: 'white' }}>
-                    <Segment attached style={{ borderTop: 'none', backgroundColor: '#f7f7f7' }}>
-                      <Header as='h5' color='pink'>
-                        Bubbles
-                      </Header>
-                    </Segment>
-
-                    <Item.Group divided>
-                      <Item>
-                        <Item.Content style={{ padding: '0em 1em' }}>
-                          <Item.Header>
-                            Bubble Title
-                          </Item.Header>
-                          <Item.Description>
-                            <p>
-                              Many people also have their own barometers for what makes a cute dog.
-                            </p>
-                          </Item.Description>
-                        </Item.Content>
-                      </Item>
-                      <Item>
-                        <Item.Content style={{ padding: '0em 1em' }}>
-                          <Item.Header>
-                            Bubble Title
-                          </Item.Header>
-                          <Item.Description>
-                            <p>
-                              Many people also have their own barometers for what makes a cute dog.
-                            </p>
-                          </Item.Description>
-                        </Item.Content>
-                      </Item>
-                      <Item>
-                        <Item.Content style={{ padding: '0em 1em' }}>
-                          <Item.Header>
-                            Bubble Title
-                          </Item.Header>
-                          <Item.Description>
-                            <p>
-                              Many people also have their own barometers for what makes a cute dog.
-                            </p>
-                          </Item.Description>
-                        </Item.Content>
-                      </Item>
-                    </Item.Group>
-
-                  </Grid.Column>
+                  {this.getTutorialItemsView()}
                 </Grid.Row>
               </Grid>
             </Segment>
