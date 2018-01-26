@@ -49,8 +49,15 @@ class Dashboard extends Component {
 
       for (let i = 0; i < tutorialData.length; i++) {
         let tutorial = tutorialData[i];
-        //let tutorialLink = '/bubbles/' + tutorial.id;
-        tutorialList.push(<TutorialCard key={tutorial.id} id={tutorial.id} title={tutorial.name} itemCount={tutorial.tutorialItems.length} handleViewItems={this.selectTutorial.bind(this)} />);
+        let active = false;
+
+        if (this.state.selectedTutorial) {
+          active = tutorial.id === this.state.selectedTutorial.id;
+        } else if (i === 0) {
+          active = true;
+        }
+
+        tutorialList.push(<TutorialCard active={active} key={tutorial.id} id={tutorial.id} title={tutorial.name} itemCount={tutorial.tutorialItems.length} handleViewItems={this.selectTutorial.bind(this)} />);
       }
     }
 
@@ -65,7 +72,7 @@ class Dashboard extends Component {
     let tutorialItems = [];
     let itemsHeader = null;
 
-    if (this.state.selectedTutorial) {
+    if (this.state.selectedTutorial || this.state.tutorialData) {
       itemsHeader = (
           <Segment attached style={{ borderTop: 'none', backgroundColor: '#f7f7f7' }}>
             <Header as='h5' color='pink'>
@@ -74,7 +81,12 @@ class Dashboard extends Component {
           </Segment>
         );
 
-      let selectedTutorialItems = this.state.selectedTutorial.tutorialItems;
+      let selectedTutorialItems = null;
+      if (this.state.selectedTutorial) {
+        selectedTutorialItems = this.state.selectedTutorial.tutorialItems;
+      } else {
+        selectedTutorialItems = this.state.tutorialData[0].tutorialItems;
+      }
 
       for (let i = 0; i < selectedTutorialItems.length; i++) {
         let item = selectedTutorialItems[i];

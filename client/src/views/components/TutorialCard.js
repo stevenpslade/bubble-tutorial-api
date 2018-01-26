@@ -26,7 +26,7 @@ class TutorialCard extends Component {
       );
     } else {
       return (
-        <Item>
+        <Item className={this.props.active ? 'active' : ''}>
           <Item.Content style={{ padding: '0em 1em' }}>
             <Item.Header as='a'>{this.props.title}</Item.Header>
             <Item.Extra>
