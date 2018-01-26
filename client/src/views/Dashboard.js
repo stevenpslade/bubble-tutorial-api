@@ -117,7 +117,7 @@ class Dashboard extends Component {
                 Your Streams
               </Header>
             </Segment>
-            <Segment style={{ padding: '0em' }}>
+            <Segment loading={ (this.state.tutorialData === null ? true : false) } style={{ padding: '0em' }}>
               <Grid celled='internally' columns='2' style={{ minHeight: '35em' }}>
                 <Grid.Row>
                   <Grid.Column width={5} style={{ padding: '0em 0em 1em 0em', backgroundColor: 'white' }}>
