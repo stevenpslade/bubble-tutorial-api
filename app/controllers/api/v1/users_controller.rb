@@ -12,7 +12,7 @@ module Api::V1
 
     # GET /get_current_user
     def get_current_user
-      render json: current_user
+      render json: current_user, include: ['sites']
     end
 
     # GET /users/1

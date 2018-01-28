@@ -9,7 +9,7 @@ module Api::V1
     def index
       @tutorials = Tutorial.active_only(params[:site_id])
 
-      render json: @tutorials, include: ['tutorial_items'] 
+      render json: @tutorials, include: ['tutorial_items']
     end
 
     # GET /tutorials/1
