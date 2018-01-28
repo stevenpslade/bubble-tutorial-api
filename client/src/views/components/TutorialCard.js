@@ -4,10 +4,6 @@ import { Button, Header, Item, Icon, Label } from 'semantic-ui-react'
 
 class TutorialCard extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     if (this.props.item) {
       return (

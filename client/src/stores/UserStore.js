@@ -44,6 +44,7 @@ class UserStore extends EventEmitter {
     if(action && action.errors && (action.errors.status === 400 || action.errors.status === 401)) {
       this.logout();
     }
+
     switch(action.actionType) {
       case ActionTypes.SIGN_UP:
         this._signUp(action.json, action.errors);
@@ -67,7 +68,8 @@ class UserStore extends EventEmitter {
         break;
 
       case ActionTypes.GET_USER:
-        let data   = action.json;
+        let data = action.json.data;
+        let included = action.json.included;
         let errors = action.errors;
 
         if (data) {
@@ -77,9 +79,10 @@ class UserStore extends EventEmitter {
 
           }
 
-          let site_id = data.relationships.sites.data[0].id;
-          SiteStore.setSiteId(site_id);
-          ServerActions.getTutorialsAndItems(site_id);
+          let site = included[0];
+          SiteStore.setSite({ id:site.id, url: site.attributes.url });
+          SiteStore.setSiteId(site.id);
+          ServerActions.getTutorialsAndItems(site.id);
         } else if (errors) {
           _errors = errors;
         }

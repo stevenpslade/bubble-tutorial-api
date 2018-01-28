@@ -11,3 +11,13 @@ body {
 .headerBrandText {
   color: white!important;
 }
+
+.actionSubMenu {
+  top: -1em;
+  animation: subMenuSlideIn 0.5s linear forwards;
+}
+
+@keyframes subMenuSlideIn {
+    from {top: -1em;}
+    to {top: 3.6em;}
+}

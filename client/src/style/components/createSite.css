@@ -1,6 +1,6 @@
-body > div,
-body > div > div,
-body > div > div > main,
-body > div > div > main > div.addSiteForm {
+body > div#root,
+body > div#root > div,
+body > div#root > div > main,
+body > div#root > div > main > div.addSiteForm {
   height: 100%;
 }

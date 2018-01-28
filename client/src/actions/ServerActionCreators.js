@@ -107,7 +107,7 @@ const Actions = {
     }).then(function(data) {
       AppDispatcher.dispatch({
         actionType: ActionTypes.GET_USER,
-        json: data.data,
+        json: data,
         errors: data.errors
       });
     }).catch(function(error) {

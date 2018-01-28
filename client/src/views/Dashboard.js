@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import SiteStore from '../stores/SiteStore'
 import TutorialStore from '../stores/TutorialStore'
 import TutorialCard from './components/TutorialCard'
-import { Button, Form, Grid, Header, Image, Message, Segment, Container, Item, Icon, Label } from 'semantic-ui-react'
+import { Grid, Header, Segment, Container, Item } from 'semantic-ui-react'
 import '../style/dashboard.css'
 
 class Dashboard extends Component {
@@ -106,8 +106,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    let scriptCode = `<script id="bubbleScript" site_id="${this.state.siteId}" src="https://www.stevenpslade.com/tutorial.js"></script>`;
-
     return (
       <div className='dashboardContainer'>
         <Container>
