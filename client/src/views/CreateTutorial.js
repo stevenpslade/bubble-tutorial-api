@@ -131,7 +131,7 @@ class CreateTutorial extends Component {
             <Segment textAlign='left'>
               <Form.Input name='name' label='Name' value={this.state.name} onChange={this.handleChange} fluid />
               <Form.Input name='pageUrl' label='Page URL' value={this.state.pageURL} onChange={this.handleChange} fluid />
-              <Form.Checkbox name='skippable' label='Can users skip this stream?' checked={this.state.skippable} onChange={this.handleChange} />
+              <Form.Checkbox name='skippable' label='Stream can be skipped' checked={this.state.skippable} onChange={this.handleChange} />
               <Form.Checkbox name='showSteps' label='Show Steps' checked={this.state.showSteps} onChange={this.handleChange} />
               <Message error list={this.getErrorMessages()} />
               <Form.Button content='NEXT' color='pink' fluid size='large' />
@@ -145,7 +145,7 @@ class CreateTutorial extends Component {
   render() {
     let form = null;
     if (this.state.tutoialCreated) {
-      form = <CreateTutorialItems tutorialId={this.state.tutorialId} />;
+      form = <CreateTutorialItems tutorialId={this.state.tutorialId} getErrorMessages={this.getErrorMessages.bind(this)} />;
     } else {
       form = this.tutorialForm();
     }

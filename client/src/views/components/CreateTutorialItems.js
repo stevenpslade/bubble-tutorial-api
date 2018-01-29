@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ServerActions from '../../actions/ServerActionCreators'
 import TutorialStore from '../../stores/TutorialStore'
+import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 class CreateTutorialItems extends Component {
 
@@ -37,10 +38,10 @@ class CreateTutorialItems extends Component {
     }
   }
 
-  handleChange(event) {
+  handleChange(event, data) {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const value = target.type ? target.value : data.checked;
+    const name = target.name || data.name;
 
     this.setState({
       [name]: value
@@ -63,27 +64,23 @@ class CreateTutorialItems extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Title:
-            <input name="title" type="text" value={this.state.title} onChange={this.handleChange} />
-          </label>
-          <label>
-            Content:
-            <input name="content" type="text" value={this.state.content} onChange={this.handleChange} />
-          </label>
-          <label>
-            Order:
-            <input name="order" type="number" value={this.state.order} onChange={this.handleChange} />
-          </label>
-          <label>
-            CSS Selector:
-            <input name="cssSelector" type="text" value={this.state.cssSelector} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
+      <Grid style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Header as='h2' color='pink' textAlign='center'>
+            Add Bubble to [insert stream name]
+          </Header>
+          <Form size='large' onSubmit={this.handleSubmit} loading={this.state.loading} error={this.props.getErrorMessages().length > 0 ? true : false}>
+            <Segment textAlign='left'>
+              <Form.Input name='title' label='Title' value={this.state.title} onChange={this.handleChange} fluid />
+              <Form.TextArea name='content' label='Main Content' value={this.state.content} onChange={this.handleChange} fluid />
+              <Form.Input name='order' label='Order' type='number' value={this.state.order} onChange={this.handleChange} fluid />
+              <Form.Input name='cssSelector' label='CSS Selector' value={this.state.cssSelector} onChange={this.handleChange} fluid />
+              <Message error list={this.props.getErrorMessages()} />
+              <Form.Button content='ADD' color='pink' fluid size='large' />
+            </Segment>
+          </Form>
+        </Grid.Column>
+      </Grid>
     );
   }
 }
