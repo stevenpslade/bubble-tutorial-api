@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import UserStore from './stores/UserStore'
 import SiteStore from './stores/SiteStore'
-import { Container, Menu, Icon, Button, Modal, Message } from 'semantic-ui-react'
+import { Container, Menu, Icon, Button, Modal, Message, Header } from 'semantic-ui-react'
 
-class Header extends Component {
+class HeaderBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,17 +73,22 @@ class Header extends Component {
 
   codeSnippetModal() {
     let scriptCode = `<script id="bubbleScript" site_id="${this.state.site.id}" src="https://www.stevenpslade.com/tutorial.js"></script>`;
+    let modal = null;
 
-    return (
-      <Modal open={this.state.codeModalShow} onClose={this.handleModalClose} dimmer='blurring' size='small' closeOnDimmerClick>
-        <Modal.Content>
-          <h3>Copy & Paste this code to your site's footer</h3>
-          <Message style={{ textAlign: 'center' }} 
-            color='pink'
-            content={scriptCode} />
-        </Modal.Content>
-      </Modal>
-    );
+    if (UserStore.isLoggedIn()) {
+      modal = (
+        <Modal open={this.state.codeModalShow} onClose={this.handleModalClose} dimmer='blurring' size='small' closeOnDimmerClick>
+          <Modal.Content>
+            <Header as='h2' color='pink'>Code Snippet</Header>
+            <p style={{ fontSize: '1.2em' }}>Copy the following code snippet and paste it in your site's code, just before the
+            ending body tag (<code>&lt;/body&gt;</code>).</p>
+            <Message style={{ textAlign: 'center' }} color='black' content={scriptCode} />
+          </Modal.Content>
+        </Modal>
+      );
+    }
+
+    return modal;
   }
 
   render() {
@@ -100,4 +105,4 @@ class Header extends Component {
   }
 }
 
-export default Header
+export default HeaderBar
