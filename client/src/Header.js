@@ -46,8 +46,8 @@ class HeaderBar extends Component {
     return links;
   }
 
-  handleModalOpen = () => this.setState({ codeModalShow: true })
-  handleModalClose = () => this.setState({ codeModalShow: false })
+  handleModalOpen = () => this.setState({ codeModalShow: true });
+  handleModalClose = () => this.setState({ codeModalShow: false });
 
   displaySubMenu() {
     let subMenu = null;
@@ -56,7 +56,7 @@ class HeaderBar extends Component {
       subMenu = (
         <Menu className='actionSubMenu' fixed='top' style={{ zIndex: '1', background: 'rgba(255, 255, 255, 0.65)' }}>
           <Container text>
-            <Menu.Item as='a' header style={{ color: '#e03997' }}><Icon size='large' color='pink' name='add circle' />Add</Menu.Item>
+            <Menu.Item as={Link} to='/bubbles/add' header style={{ color: '#e03997' }}><Icon size='large' color='pink' name='add circle' />Add</Menu.Item>
             <Menu.Item as='a' header
               onClick={this.handleModalOpen}
               position='right'
@@ -95,7 +95,7 @@ class HeaderBar extends Component {
     return (
       <div>
         <Menu color='pink' inverted borderless fixed='top'>
-          <Menu.Item className='headerBrandText' header as='h3'>SimpleBubble</Menu.Item>
+          <Menu.Item className='headerBrandText' header style={{ fontSize: '1.3em' }} as={Link} to='/dashboard'>SimpleBubble</Menu.Item>
           {this.loggedInDependentLinks()}
         </Menu>
         {this.displaySubMenu()}

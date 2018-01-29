@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Header, Item, Icon, Label } from 'semantic-ui-react'
+import { Button, Item, Icon, Label } from 'semantic-ui-react'
 
 class TutorialCard extends Component {
 

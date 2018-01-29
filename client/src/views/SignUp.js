@@ -4,7 +4,7 @@ import UserStore from '../stores/UserStore'
 import SiteStore from '../stores/SiteStore'
 import ServerActions from '../actions/ServerActionCreators'
 import CreateSite from './components/CreateSite'
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import '../style/signUp.css'
 
 class SignUp extends Component {

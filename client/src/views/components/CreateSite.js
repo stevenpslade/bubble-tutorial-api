@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import SiteStore from '../../stores/SiteStore'
 import UserStore from '../../stores/UserStore'
 import ServerActions from '../../actions/ServerActionCreators'
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 require('../../style/components/createSite.css');
 
 class CreateSite extends Component {

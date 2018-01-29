@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import UserStore from '../stores/UserStore'
 import ServerActions from '../actions/ServerActionCreators'
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import '../style/login.css'
 
 class Login extends Component {
@@ -69,13 +69,10 @@ class Login extends Component {
     let message = [];
     if (this.state.errors) {
       let errorObj = this.state.errors;
-      let errorCnt = 0;
       for (const error in errorObj) {
         message.push(
           error + ': ' + errorObj[error][0]
         );
-
-        errorCnt++;
       }
 
       return (

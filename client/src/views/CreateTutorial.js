@@ -4,7 +4,8 @@ import TutorialStore from '../stores/TutorialStore'
 import SiteStore from '../stores/SiteStore'
 import UserStore from '../stores/UserStore'
 import CreateTutorialItems from './components/CreateTutorialItems'
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
+import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 class CreateTutorial extends Component {
 
@@ -12,6 +13,7 @@ class CreateTutorial extends Component {
     super(props);
     this.state = {
       errors: '',
+      loading: false,
       tutoialCreated: false,
       tutorialId: null,
       tutorialItemsInProgress: true,
@@ -57,10 +59,10 @@ class CreateTutorial extends Component {
     });
   }
 
-  handleChange(event) {
+  handleChange(event, data) {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const value = target.type ? target.value : data.checked;
+    const name = target.name || data.name;
 
     this.setState({
       [name]: value
@@ -83,47 +85,60 @@ class CreateTutorial extends Component {
   }
 
   getErrorMessages() {
-    let message = [];
+    let messages = [];
     if (this.state.errors) {
       let errorObj = this.state.errors;
-      let errorCnt = 0;
       for (const error in errorObj) {
-        message.push(
-          <p key={errorCnt}>Error with {error}: {errorObj[error][0]}</p>
-        );
-
-        errorCnt++;
+        messages.push(error + ': ' + errorObj[error][0]);
       }
-    } else {
-      message = 'No Errors.';
     }
 
-    return (
-      <div>{message}</div>
-    );
+    return messages;
   }
+
+  // tutorialForm() {
+  //   return (
+  //     <form onSubmit={this.handleSubmit}>
+  //       <label>
+  //         Name:
+  //         <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+  //       </label>
+  //       <label>
+  //         Page URL:
+  //         <input name="pageUrl" type="text" value={this.state.pageUrl} onChange={this.handleChange} />
+  //       </label>
+  //       <label>
+  //         Skippable:
+  //         <input name="skippable" type="checkbox" checked={this.state.skippable} onChange={this.handleChange} />
+  //       </label>
+  //       <label>
+  //         Show Steps:
+  //         <input name="showSteps" type="checkbox" checked={this.state.showSteps} onChange={this.handleChange} />
+  //       </label>
+  //       <input type="submit" value="Submit" />
+  //     </form>
+  //   );
+  // }
 
   tutorialForm() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
-        </label>
-        <label>
-          Page URL:
-          <input name="pageUrl" type="text" value={this.state.pageUrl} onChange={this.handleChange} />
-        </label>
-        <label>
-          Skippable:
-          <input name="skippable" type="checkbox" checked={this.state.skippable} onChange={this.handleChange} />
-        </label>
-        <label>
-          Show Steps:
-          <input name="showSteps" type="checkbox" checked={this.state.showSteps} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <Grid style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Header as='h2' color='pink' textAlign='center'>
+            Add New Bubble Stream
+          </Header>
+          <Form size='large' onSubmit={this.handleSubmit} loading={this.state.loading} error={this.getErrorMessages().length > 0 ? true : false}>
+            <Segment textAlign='left'>
+              <Form.Input name='name' label='Name' value={this.state.name} onChange={this.handleChange} fluid />
+              <Form.Input name='pageUrl' label='Page URL' value={this.state.pageURL} onChange={this.handleChange} fluid />
+              <Form.Checkbox name='skippable' label='Can users skip this stream?' checked={this.state.skippable} onChange={this.handleChange} />
+              <Form.Checkbox name='showSteps' label='Show Steps' checked={this.state.showSteps} onChange={this.handleChange} />
+              <Message error list={this.getErrorMessages()} />
+              <Form.Button content='NEXT' color='pink' fluid size='large' />
+            </Segment>
+          </Form>
+        </Grid.Column>
+      </Grid>
     );
   }
 
@@ -136,12 +151,8 @@ class CreateTutorial extends Component {
     }
 
     return (
-      <div>
+      <div className='createTutorialContainer' style={{ marginTop: '9em' }}>
         {form}
-        <Link to='/dashboard'>
-          <button>Finish Tutorial & Items</button>
-        </Link>
-        {this.getErrorMessages()}
       </div>
     );
   }
