@@ -23,3 +23,23 @@ div.dashboardContainer .tutorialList .item.active {
   background-color: #ffffff;
   border-left: 2px solid #e03997;
 }
+
+div.dashboardContainer .noTutAddIcon {
+  animation: pulse 2s infinite;
+}
+
+div.dashboardContainer .noTutAddIcon:hover {
+  animation: none;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(244,57,151, 0.6);
+  }
+  70% {
+      box-shadow: 0 0 0 50px rgba(244,57,151, 0);
+  }
+  100% {
+      box-shadow: 0 0 0 0 rgba(244,57,151, 0);
+  }
+}

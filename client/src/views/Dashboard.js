@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import ServerActions from '../actions/ServerActionCreators'
 import SiteStore from '../stores/SiteStore'
 import TutorialStore from '../stores/TutorialStore'
 import TutorialCard from './components/TutorialCard'
-import { Grid, Header, Segment, Container, Item } from 'semantic-ui-react'
+import { Grid, Header, Segment, Container, Item, Icon } from 'semantic-ui-react'
 import '../style/dashboard.css'
 
 class Dashboard extends Component {
@@ -121,8 +122,16 @@ class Dashboard extends Component {
   }
 
   render() {
-    return (
-      <div className='dashboardContainer'>
+    let mainContent = (
+      <Container textAlign='center'>
+        <Link to='/bubbles/add'>
+          <Icon className='noTutAddIcon' name='add' size='huge' color='pink' inverted circular style={{ marginTop: '2em' }} />
+        </Link>
+      </Container>
+    );
+
+    if (this.state.tutorialData && this.state.tutorialData.length > 0) {
+      mainContent = (
         <Container>
           <Segment.Group raised>
             <Segment>
@@ -142,6 +151,12 @@ class Dashboard extends Component {
             </Segment>
           </Segment.Group>
         </Container>
+      );
+    }
+
+    return (
+      <div className='dashboardContainer'>
+        {mainContent}
       </div>
     );
   }
