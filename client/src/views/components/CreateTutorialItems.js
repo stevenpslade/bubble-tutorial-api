@@ -22,8 +22,6 @@ class CreateTutorialItems extends Component {
 
   componentWillMount() {
     TutorialStore.addChangeListener(this._onChange);
-
-    console.log(this.props.tutorialInProgress);
   }
 
   componentWillUnmount() {

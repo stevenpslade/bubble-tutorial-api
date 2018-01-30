@@ -215,6 +215,26 @@ const Actions = {
     });
   },
 
+  deleteTutorial(tutId, siteId) {
+    window.fetch(`${API_URL}/sites/${siteId}/tutorials/${tutId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + UserStore.getAuthToken()
+      }
+    })
+    .then(function(response) {
+      return response;
+    })
+    .then(function(data) {
+      AppDispatcher.dispatch({
+        actionType: ActionTypes.DELETE_TUTORIAL,
+        json: data,
+        errors: data
+      });
+    });
+  },
+
 };
 
 export default Actions;

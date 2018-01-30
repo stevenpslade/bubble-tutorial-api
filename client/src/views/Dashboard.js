@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ServerActions from '../actions/ServerActionCreators'
 import SiteStore from '../stores/SiteStore'
 import TutorialStore from '../stores/TutorialStore'
 import TutorialCard from './components/TutorialCard'
@@ -30,78 +31,93 @@ class Dashboard extends Component {
   _onChange() {
     this.setState({
       siteId: SiteStore.getSiteId(),
-      tutorialData: TutorialStore.getTutorialData()
+      tutorialData: TutorialStore.getTutorialData(),
+      selectedTutorial: null
     });
   }
 
-  selectTutorial(itemId) {
+  selectTutorial(tutId) {
     this.setState({
-      selectedTutorial: TutorialStore.getTutorialData(itemId)
+      selectedTutorial: TutorialStore.getTutorialData(tutId)
     });
+  }
+
+  deleteTutorial(tutId) {
+    ServerActions.deleteTutorial(tutId, this.state.siteId);
   }
 
   getTutorialCards() {
-    let tutorialList = [];
+    if (this.state.tutorialData && this.state.tutorialData.length > 0) {
+      let tutorialList = [];
 
-    if (this.state.tutorialData) {
-      let tutorialData = this.state.tutorialData;
+      if (this.state.tutorialData) {
+        let tutorialData = this.state.tutorialData;
 
-      for (let i = 0; i < tutorialData.length; i++) {
-        let tutorial = tutorialData[i];
-        let active = false;
+        for (let i = 0; i < tutorialData.length; i++) {
+          let tutorial = tutorialData[i];
+          let active = false;
 
-        if (this.state.selectedTutorial) {
-          active = tutorial.id === this.state.selectedTutorial.id;
-        } else if (i === 0) {
-          active = true;
+          if (this.state.selectedTutorial) {
+            active = tutorial.id === this.state.selectedTutorial.id;
+          } else if (i === 0) {
+            active = true;
+          }
+
+          tutorialList.push(<TutorialCard active={active} key={tutorial.id} id={tutorial.id} title={tutorial.name} 
+                              itemCount={tutorial.tutorialItems.length} 
+                              handleViewItems={this.selectTutorial.bind(this)}
+                              handleDeleteTutorial={this.deleteTutorial.bind(this)} />);
         }
-
-        tutorialList.push(<TutorialCard active={active} key={tutorial.id} id={tutorial.id} title={tutorial.name} itemCount={tutorial.tutorialItems.length} handleViewItems={this.selectTutorial.bind(this)} />);
       }
-    }
 
-    return (
-      <Item.Group divided className='tutorialList'>
-        {tutorialList}
-      </Item.Group>
-    );
+      return (
+        <Item.Group divided className='tutorialList'>
+          {tutorialList}
+        </Item.Group>
+      );
+    } else {
+      return null;
+    }
   }
 
   getTutorialItemsView() {
-    let tutorialItems = [];
-    let itemsHeader = null;
+    if (this.state.tutorialData && this.state.tutorialData.length > 0) {
+      let tutorialItems = [];
+      let itemsHeader = null;
 
-    if (this.state.selectedTutorial || this.state.tutorialData) {
-      itemsHeader = (
-          <Segment attached style={{ borderTop: 'none', backgroundColor: '#f7f7f7' }}>
-            <Header as='h5' color='pink'>
-              Bubbles
-            </Header>
-          </Segment>
-        );
+      if (this.state.selectedTutorial || this.state.tutorialData) {
+        itemsHeader = (
+            <Segment attached style={{ borderTop: 'none', backgroundColor: '#f7f7f7' }}>
+              <Header as='h5' color='pink'>
+                Bubbles
+              </Header>
+            </Segment>
+          );
 
-      let selectedTutorialItems = null;
-      if (this.state.selectedTutorial) {
-        selectedTutorialItems = this.state.selectedTutorial.tutorialItems;
-      } else {
-        selectedTutorialItems = this.state.tutorialData[0].tutorialItems;
+        let selectedTutorialItems = null;
+        if (this.state.selectedTutorial) {
+          selectedTutorialItems = this.state.selectedTutorial.tutorialItems;
+        } else {
+          selectedTutorialItems = this.state.tutorialData[0].tutorialItems;
+        }
+
+        for (let i = 0; i < selectedTutorialItems.length; i++) {
+          let item = selectedTutorialItems[i];
+          tutorialItems.push(<TutorialCard item key={item.id} id={item.id} title={item.title} content={item.content} cssSelector={item.css_selector} />);
+        }
       }
 
-      for (let i = 0; i < selectedTutorialItems.length; i++) {
-        let item = selectedTutorialItems[i];
-
-        tutorialItems.push(<TutorialCard item key={item.id} id={item.id} title={item.title} content={item.content} />);
-      }
+      return (
+        <Grid.Column width={11} style={{ padding: '0em 0em 1em 0em', backgroundColor: 'white' }}>
+          {itemsHeader}
+          <Item.Group divided>
+            {tutorialItems}
+          </Item.Group>
+        </Grid.Column>
+      );
+    } else {
+      return null;
     }
-
-    return (
-      <Grid.Column width={11} style={{ padding: '0em 0em 1em 0em', backgroundColor: 'white' }}>
-        {itemsHeader}
-        <Item.Group divided>
-          {tutorialItems}
-        </Item.Group>
-      </Grid.Column>
-    );
   }
 
   render() {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Item, Icon, Label } from 'semantic-ui-react'
+import { Button, Item, Icon, Label, Popup } from 'semantic-ui-react'
 
 class TutorialCard extends Component {
 
@@ -9,7 +9,7 @@ class TutorialCard extends Component {
         <Item>
           <Item.Content style={{ padding: '0em 1em' }}>
             <Item.Header>
-              {this.props.title}
+              {this.props.title} <Label size='small'>{this.props.cssSelector}</Label>
             </Item.Header>
             <Item.Description>
               <p>
@@ -20,9 +20,24 @@ class TutorialCard extends Component {
         </Item>
       );
     } else {
+      let deletePopover = null;
+
+      if (this.props.active) {
+        deletePopover = (
+          <Popup
+            trigger={<Icon link onClick={ () => { this.props.handleDeleteTutorial(this.props.id) } } name='trash' color='red' style={{ float: 'right' }} />}
+            content="This will delete the stream & it's bubbles forever."
+            inverted
+            position='right center'
+            size='small'
+          />
+        );
+      }
+
       return (
         <Item className={this.props.active ? 'active' : ''}>
           <Item.Content style={{ padding: '0em 1em' }}>
+            {deletePopover}
             <Item.Header as='a'>{this.props.title}</Item.Header>
             <Item.Extra>
               <Button basic floated='right' onClick={ () => { this.props.handleViewItems(this.props.id) } }>

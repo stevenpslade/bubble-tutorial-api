@@ -1,6 +1,8 @@
 import ActionTypes from '../constants/Constants.js';
 import { EventEmitter } from 'events';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
+import ServerActions from '../actions/ServerActionCreators';
+import SiteStore from './SiteStore';
 import createHistory from 'history/createBrowserHistory';
 
 const history = createHistory();
@@ -63,7 +65,9 @@ class TutorialStore extends EventEmitter {
   _registerToActions(action) {
     switch(action.actionType) {
       case ActionTypes.GET_TUTORIALS:
-        this._parseTutorialData(action.json);
+        if (action.json) {
+          this._parseTutorialData(action.json);
+        }
         this.emit(CHANGE);
         break;
 
@@ -75,6 +79,13 @@ class TutorialStore extends EventEmitter {
       case ActionTypes.CREATE_TUTORIAL_ITEM:
         this._createTutorialItem(action.json, action.errors);
         this.emit(CHANGE);
+        break;
+
+      case ActionTypes.DELETE_TUTORIAL:
+        if (action.json.status === 204) {
+          let siteId = SiteStore.getSiteId();
+          ServerActions.getTutorialsAndItems(siteId);
+        }
         break;
 
       default:
