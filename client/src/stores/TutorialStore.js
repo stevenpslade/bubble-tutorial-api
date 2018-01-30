@@ -105,6 +105,9 @@ class TutorialStore extends EventEmitter {
       data.attributes.tutorialItems = [];
       _tutorialData.push(data.attributes);
 
+      // reset errors
+      _errors = null;
+
       //redirecting to add tutorial items view
       history.push(`/bubbles/add/${data.id}`);
     } else if (errors) {
@@ -126,6 +129,9 @@ class TutorialStore extends EventEmitter {
           _tutorialData[i].tutorialItems.push(data.attributes);
         }
       }
+
+      // reset errors
+      _errors = null;
     } else if (errors) {
       _errors = errors;
     }

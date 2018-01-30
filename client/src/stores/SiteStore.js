@@ -59,6 +59,9 @@ class SiteStore extends EventEmitter {
     if (data) {
       _siteId  = data.id;
       _site    = {id: data.id, url: data.attributes.url};
+
+      // reset errors
+      _errors = null;
     } else if (errors) {
       _errors = errors;
     }
