@@ -122,13 +122,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    let mainContent = (
-      <Container textAlign='center'>
-        <Link to='/bubbles/add'>
-          <Icon className='noTutAddIcon' name='add' size='huge' color='pink' inverted circular style={{ marginTop: '2em' }} />
-        </Link>
-      </Container>
-    );
+    let mainContent = null;
 
     if (this.state.tutorialData && this.state.tutorialData.length > 0) {
       mainContent = (
@@ -150,6 +144,14 @@ class Dashboard extends Component {
               </Grid>
             </Segment>
           </Segment.Group>
+        </Container>
+      );
+    } else if (this.state.tutorialData && this.state.tutorialData.length === 0) {
+      mainContent = (
+        <Container textAlign='center'>
+          <Link to='/bubbles/add'>
+            <Icon className='noTutAddIcon' name='add' size='huge' color='pink' inverted circular style={{ marginTop: '2em' }} />
+          </Link>
         </Container>
       );
     }

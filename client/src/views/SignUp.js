@@ -68,7 +68,7 @@ class SignUp extends Component {
 
     setTimeout(function () {
       ServerActions.signUp(submitObject);
-    }, 500);
+    }, 300);
   }
 
   getErrorMessages() {

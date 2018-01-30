@@ -62,7 +62,7 @@ class Login extends Component {
 
     setTimeout(function () {
       ServerActions.login(submitObject);
-    }, 500);
+    }, 300);
   }
 
   getErrorMessages() {
