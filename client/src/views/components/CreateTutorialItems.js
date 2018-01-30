@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ServerActions from '../../actions/ServerActionCreators'
 import TutorialStore from '../../stores/TutorialStore'
+import { Link } from 'react-router-dom'
 import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 class CreateTutorialItems extends Component {
@@ -83,6 +84,9 @@ class CreateTutorialItems extends Component {
               <Form.Button content='ADD' color='pink' fluid size='large' />
             </Segment>
           </Form>
+          <Message>
+            All done? <Link to='/dashboard' style={{ color: '#e03997' }}>Back to Dashboard</Link>
+          </Message>
         </Grid.Column>
       </Grid>
     );
