@@ -16,6 +16,7 @@ class CreateTutorial extends Component {
       loading: false,
       tutoialCreated: false,
       tutorialId: null,
+      tutorialInProgress: null,
       tutorialItemsInProgress: true,
       name: '',
       pageUrl: '',
@@ -37,7 +38,8 @@ class CreateTutorial extends Component {
 
       this.setState({
         tutoialCreated: true,
-        tutorialId: params.tutorialId
+        tutorialId: params.tutorialId,
+        tutorialInProgress: TutorialStore.getTutorialData(params.tutorialId)
       });
     } else {
       TutorialStore.setTutorialId(this.state.tutorialId);
@@ -52,9 +54,12 @@ class CreateTutorial extends Component {
   }
 
   _onChange() {
+    let tutorialId = TutorialStore.getTutorialId();
+
     this.setState({
       tutoialCreated: TutorialStore.tutorialCreated(),
-      tutorialId: TutorialStore.getTutorialId(),
+      tutorialId: tutorialId,
+      tutorialInProgress: TutorialStore.getTutorialData(tutorialId),
       errors: TutorialStore.getErrors()
     });
   }
@@ -96,34 +101,10 @@ class CreateTutorial extends Component {
     return messages;
   }
 
-  // tutorialForm() {
-  //   return (
-  //     <form onSubmit={this.handleSubmit}>
-  //       <label>
-  //         Name:
-  //         <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
-  //       </label>
-  //       <label>
-  //         Page URL:
-  //         <input name="pageUrl" type="text" value={this.state.pageUrl} onChange={this.handleChange} />
-  //       </label>
-  //       <label>
-  //         Skippable:
-  //         <input name="skippable" type="checkbox" checked={this.state.skippable} onChange={this.handleChange} />
-  //       </label>
-  //       <label>
-  //         Show Steps:
-  //         <input name="showSteps" type="checkbox" checked={this.state.showSteps} onChange={this.handleChange} />
-  //       </label>
-  //       <input type="submit" value="Submit" />
-  //     </form>
-  //   );
-  // }
-
   tutorialForm() {
     return (
       <Grid style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
-        <Grid.Column style={{ maxWidth: 450 }}>
+        <Grid.Column style={{ maxWidth: 550 }}>
           <Header as='h2' color='pink' textAlign='center'>
             Add New Bubble Stream
           </Header>
@@ -144,8 +125,8 @@ class CreateTutorial extends Component {
 
   render() {
     let form = null;
-    if (this.state.tutoialCreated) {
-      form = <CreateTutorialItems tutorialId={this.state.tutorialId} getErrorMessages={this.getErrorMessages.bind(this)} />;
+    if (this.state.tutoialCreated && this.state.tutorialInProgress) {
+      form = <CreateTutorialItems tutorialId={this.state.tutorialId} tutorialInProgress={this.state.tutorialInProgress} getErrorMessages={this.getErrorMessages.bind(this)} />;
     } else {
       form = this.tutorialForm();
     }

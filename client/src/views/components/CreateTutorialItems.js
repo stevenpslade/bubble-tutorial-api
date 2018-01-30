@@ -21,6 +21,8 @@ class CreateTutorialItems extends Component {
 
   componentWillMount() {
     TutorialStore.addChangeListener(this._onChange);
+
+    console.log(this.props.tutorialInProgress);
   }
 
   componentWillUnmount() {
@@ -63,16 +65,18 @@ class CreateTutorialItems extends Component {
   }
 
   render() {
+    let tutorialInProgress = this.props.tutorialInProgress;
+
     return (
       <Grid style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
-        <Grid.Column style={{ maxWidth: 450 }}>
+        <Grid.Column style={{ maxWidth: 550 }}>
           <Header as='h2' color='pink' textAlign='center'>
-            Add Bubble to [insert stream name]
+            Adding Bubble to {tutorialInProgress.name}
           </Header>
           <Form size='large' onSubmit={this.handleSubmit} loading={this.state.loading} error={this.props.getErrorMessages().length > 0 ? true : false}>
             <Segment textAlign='left'>
               <Form.Input name='title' label='Title' value={this.state.title} onChange={this.handleChange} fluid />
-              <Form.TextArea name='content' label='Main Content' value={this.state.content} onChange={this.handleChange} fluid />
+              <Form.TextArea name='content' label='Main Content' maxLength='300' value={this.state.content} onChange={this.handleChange} />
               <Form.Input name='order' label='Order' type='number' value={this.state.order} onChange={this.handleChange} fluid />
               <Form.Input name='cssSelector' label='CSS Selector' value={this.state.cssSelector} onChange={this.handleChange} fluid />
               <Message error list={this.props.getErrorMessages()} />

@@ -88,6 +88,13 @@ class TutorialStore extends EventEmitter {
     if (data) {
       _tutorial = Object.assign({id: data.id}, data.attributes);
       _tutorialCreated = true;
+
+      // pushing new tutorial data to main tutorial array
+      data.attributes.id = data.id;
+      data.attributes.tutorialItems = [];
+      _tutorialData.push(data.attributes);
+
+      //redirecting to add tutorial items view
       history.push(`/bubbles/add/${data.id}`);
     } else if (errors) {
       _errors = errors;
@@ -97,6 +104,17 @@ class TutorialStore extends EventEmitter {
   _createTutorialItem(data, errors) {
     if (data) {
       _tutorialItems.push(Object.assign({id: data.id}, data.attributes));
+
+      data.attributes.id = data.id;
+      let itemRelId = data.relationships.tutorial.data.id;
+
+      for (let i = 0; i < _tutorialData.length; i++) {
+        let tutId = _tutorialData[i].id;
+
+        if (tutId === itemRelId) {
+          _tutorialData[i].tutorialItems.push(data.attributes);
+        }
+      }
     } else if (errors) {
       _errors = errors;
     }
