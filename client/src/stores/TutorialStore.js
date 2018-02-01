@@ -108,8 +108,8 @@ class TutorialStore extends EventEmitter {
       // reset errors
       _errors = null;
 
-      //redirecting to add tutorial items view
-      history.push(`/bubbles/add/${data.id}`);
+      // redirecting to add tutorial items view
+      history.push(`/bubbles/${data.id}/add`);
     } else if (errors) {
       _errors = errors;
     }
