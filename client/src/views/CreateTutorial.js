@@ -4,8 +4,9 @@ import TutorialStore from '../stores/TutorialStore'
 import SiteStore from '../stores/SiteStore'
 import UserStore from '../stores/UserStore'
 import CreateTutorialItems from './components/CreateTutorialItems'
+import EditRail from './components/EditRail'
 import { Link } from 'react-router-dom'
-import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
+import { Form, Grid, Header, Message, Segment, Icon } from 'semantic-ui-react'
 
 class CreateTutorial extends Component {
 
@@ -16,13 +17,16 @@ class CreateTutorial extends Component {
       loading: false,
       tutoialCreated: false,
       tutorialId: null,
+      editItemId: null,
       tutorialInProgress: null,
-      tutorialItemsInProgress: true,
       name: '',
       pageUrl: '',
       skippable: false,
       showSteps: true,
     }
+
+    const { match: { params } } = this.props;
+    this.params = params;
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,17 +34,32 @@ class CreateTutorial extends Component {
   }
 
   componentWillMount() {
-    const { match: { params } } = this.props;
-    
-    if (params.tutorialId) {
-      TutorialStore.setTutorialId(params.tutorialId);
+    if (this.params.tutorialId && this.params.action === 'add') {
+      TutorialStore.setTutorialId(this.params.tutorialId);
       TutorialStore.setTutorialCreated(true);
 
       this.setState({
         tutoialCreated: true,
-        tutorialId: params.tutorialId,
-        tutorialInProgress: TutorialStore.getTutorialData(params.tutorialId)
+        tutorialId: this.params.tutorialId,
+        tutorialInProgress: TutorialStore.getTutorialData(this.params.tutorialId)
       });
+    } else if (this.params.tutorialId && this.params.action === 'edit') {
+      TutorialStore.setTutorialId(this.params.tutorialId);
+
+      this.setState({
+        tutorialInProgress: TutorialStore.getTutorialData(this.params.tutorialId)
+      });
+
+      let tutorial = TutorialStore.getTutorialData(this.params.tutorialId);
+
+      if (tutorial) {
+        this.setState({
+          name: tutorial.name,
+          pageUrl: tutorial.page_url,
+          skippable: tutorial.skippable,
+          showSteps: tutorial.show_steps
+        });
+      }
     } else {
       TutorialStore.setTutorialId(this.state.tutorialId);
       TutorialStore.setTutorialCreated(this.state.tutorialCreated);
@@ -60,8 +79,19 @@ class CreateTutorial extends Component {
       tutoialCreated: TutorialStore.tutorialCreated(),
       tutorialId: tutorialId,
       tutorialInProgress: TutorialStore.getTutorialData(tutorialId),
-      errors: TutorialStore.getErrors()
+      errors: TutorialStore.getErrors(),
     });
+
+    if (this.params.action === 'edit') {
+      let tutorial = this.state.tutorialInProgress;
+
+      this.setState({
+        name: tutorial.name,
+        pageUrl: tutorial.page_url,
+        skippable: tutorial.skippable,
+        showSteps: tutorial.show_steps
+      });
+    }
   }
 
   handleChange(event, data) {
@@ -86,7 +116,12 @@ class CreateTutorial extends Component {
       siteId: SiteStore.getSiteId()
     }
 
-    ServerActions.addTutorial(submitObject);
+    if (this.params.action === 'add') {
+      ServerActions.addTutorial(submitObject);
+    } else if (this.params.action === 'edit') {
+      submitObject.id = this.state.tutorialInProgress.id;
+      ServerActions.editTutorial(submitObject);
+    }
   }
 
   getErrorMessages() {
@@ -101,21 +136,34 @@ class CreateTutorial extends Component {
     return messages;
   }
 
+  goToEditItem(id, tutorial = false) {
+    if (tutorial) {
+      this.setState({
+        editItemId: null
+      });
+    } else {
+      this.setState({
+        editItemId: id
+      });
+    }
+  }
+
   tutorialForm() {
     return (
       <Grid style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
         <Grid.Column style={{ maxWidth: 550 }}>
           <Header as='h2' color='pink' textAlign='center'>
-            Add New Bubble Stream
+            {this.params.action === 'edit' ? 'Edit Bubble Stream' : 'Add New Bubble Stream'}
           </Header>
           <Form size='large' onSubmit={this.handleSubmit} loading={this.state.loading} error={this.getErrorMessages().length > 0 ? true : false}>
             <Segment textAlign='left'>
+              { this.params.action === 'edit' && this.state.tutorialInProgress ? <EditRail tutorial={this.state.tutorialInProgress} goToEditItem={this.goToEditItem.bind(this)} /> : null }
               <Form.Input name='name' label='Name' value={this.state.name} onChange={this.handleChange} fluid />
-              <Form.Input name='pageUrl' label='Page URL' value={this.state.pageURL} onChange={this.handleChange} fluid />
+              <Form.Input name='pageUrl' label='Page URL' value={this.state.pageUrl} onChange={this.handleChange} fluid />
               <Form.Checkbox name='skippable' label='Stream can be skipped' checked={this.state.skippable} onChange={this.handleChange} />
               <Form.Checkbox name='showSteps' label='Show Steps' checked={this.state.showSteps} onChange={this.handleChange} />
               <Message error list={this.getErrorMessages()} />
-              <Form.Button content='NEXT' color='pink' fluid size='large' />
+              <Form.Button content={this.params.action === 'add' ? 'NEXT' : 'SAVE'} color='pink' fluid size='large' />
             </Segment>
           </Form>
           <Message>
@@ -128,8 +176,8 @@ class CreateTutorial extends Component {
 
   render() {
     let form = null;
-    if (this.state.tutoialCreated && this.state.tutorialInProgress) {
-      form = <CreateTutorialItems tutorialId={this.state.tutorialId} tutorialInProgress={this.state.tutorialInProgress} getErrorMessages={this.getErrorMessages.bind(this)} />;
+    if ( (this.state.tutoialCreated && this.state.tutorialInProgress) || (this.state.editItemId && this.state.tutorialInProgress) ) {
+      form = <CreateTutorialItems action={this.params.action} tutorialId={this.state.tutorialId} itemId={this.state.editItemId} tutorialInProgress={this.state.tutorialInProgress} getErrorMessages={this.getErrorMessages.bind(this)} goToEditItem={this.goToEditItem.bind(this)} />;
     } else {
       form = this.tutorialForm();
     }

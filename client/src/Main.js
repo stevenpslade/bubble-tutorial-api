@@ -6,8 +6,6 @@ import SignUp from './views/SignUp'
 import Login from './views/Login'
 import Dashboard from './views/Dashboard'
 import CreateTutorial from './views/CreateTutorial'
-import Tutorials from './views/Tutorials'
-import TutorialDetails from './views/TutorialDetails'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
@@ -56,8 +54,6 @@ class Main extends Component {
           <Route path='/login' component={Login}/>
           <PrivateRoute path='/dashboard' component={Dashboard}/>
           <PrivateRoute path='/bubbles/:tutorialId?/:action' component={CreateTutorial}/>
-          <PrivateRoute path='/bubbles/:tutorialId' component={TutorialDetails}/>
-          <PrivateRoute path='/bubbles' component={Tutorials}/>
           <PrivateRoute exact path='*' component={Dashboard}/>
         </Switch>
       </main>

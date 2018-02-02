@@ -149,7 +149,7 @@ class Dashboard extends Component {
     } else if (this.state.tutorialData && this.state.tutorialData.length === 0) {
       mainContent = (
         <Container textAlign='center'>
-          <Link to='/bubbles/add'>
+          <Link to='/streams/add'>
             <Icon className='noTutAddIcon' name='add' size='huge' color='pink' inverted circular style={{ marginTop: '2em' }} />
           </Link>
         </Container>

@@ -8,7 +8,9 @@ const ServerConstants = keyMirror({
   GET_USER: null,
   GET_TUTORIALS: null,
   CREATE_TUTORIAL: null,
+  EDIT_TUTORIAL: null,
   CREATE_TUTORIAL_ITEM: null,
+  EDIT_TUTORIAL_ITEM: null,
   DELETE_TUTORIAL: null,
 });
 

@@ -76,6 +76,11 @@ class TutorialStore extends EventEmitter {
         this.emit(CHANGE);
         break;
 
+      case ActionTypes.EDIT_TUTORIAL:
+        this._editTutorial(action.json, action.errors);
+        this.emit(CHANGE);
+        break;
+
       case ActionTypes.CREATE_TUTORIAL_ITEM:
         this._createTutorialItem(action.json, action.errors);
         this.emit(CHANGE);
@@ -110,6 +115,32 @@ class TutorialStore extends EventEmitter {
 
       // redirecting to add tutorial items view
       history.push(`/bubbles/${data.id}/add`);
+    } else if (errors) {
+      _errors = errors;
+    }
+  }
+
+  _editTutorial(data, errors) {
+    if (data) {
+      _tutorial = Object.assign({id: data.id}, data.attributes);
+
+      let editedTutorial = data.attributes;
+      editedTutorial.id = data.id;
+
+      for (let i = 0; i < _tutorialData.length; i++) {
+        let tutorial = _tutorialData[i];
+
+        if (tutorial.id === data.id) {
+          _tutorialData[i].active     = editedTutorial.active;
+          _tutorialData[i].name       = editedTutorial.name;
+          _tutorialData[i].page_url   = editedTutorial.page_url;
+          _tutorialData[i].show_steps = editedTutorial.show_steps;
+          _tutorialData[i].skippable  = editedTutorial.skippable;
+        }
+      }
+
+      // reset errors
+      _errors = null;
     } else if (errors) {
       _errors = errors;
     }

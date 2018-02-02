@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Button, Item, Icon, Label, Popup } from 'semantic-ui-react'
 
 class TutorialCard extends Component {
@@ -20,24 +21,27 @@ class TutorialCard extends Component {
         </Item>
       );
     } else {
-      let deletePopover = null;
+      let actionIcons = null;
 
       if (this.props.active) {
-        deletePopover = (
-          <Popup
-            trigger={<Icon link onClick={ () => { this.props.handleDeleteTutorial(this.props.id) } } name='trash' color='red' style={{ float: 'right' }} />}
-            content="This will delete the stream & it's bubbles forever."
-            inverted
-            position='right center'
-            size='small'
-          />
+        actionIcons = (
+          <div>
+            <Popup
+              trigger={<Icon link onClick={ () => { this.props.handleDeleteTutorial(this.props.id) } } name='trash' color='red' style={{ float: 'right' }} />}
+              content="This will delete the stream & it's bubbles forever."
+              inverted
+              position='right center'
+              size='small'
+            />
+            <Link to={'/bubbles/' + this.props.id + '/edit'}><Icon name='pencil' color='grey' style={{ float: 'right' }} /></Link>
+          </div>
         );
       }
 
       return (
         <Item className={this.props.active ? 'active' : ''}>
           <Item.Content style={{ padding: '0em 1em' }}>
-            {deletePopover}
+            {actionIcons}
             <Item.Header as='a'>{this.props.title}</Item.Header>
             <Item.Extra>
               <Button basic floated='right' onClick={ () => { this.props.handleViewItems(this.props.id) } }>

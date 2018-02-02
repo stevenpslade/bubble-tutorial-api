@@ -33,7 +33,7 @@ module Api::V1
       if @tutorial.update(tutorial_params)
         render json: @tutorial
       else
-        render json: @tutorial.errors, status: :unprocessable_entity
+        render json: { errors: @tutorial.errors }, status: :unprocessable_entity
       end
     end
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ServerActions from '../../actions/ServerActionCreators'
 import TutorialStore from '../../stores/TutorialStore'
+import EditRail from './EditRail'
 import { Link } from 'react-router-dom'
 import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
@@ -60,26 +61,33 @@ class CreateTutorialItems extends Component {
       tutorialId: this.props.tutorialId
     }
 
-    ServerActions.addTutorialItem(submitObject);
+    if (this.props.action === 'add') {
+      ServerActions.addTutorialItem(submitObject);
+    } else if (this.props.action === 'edit') {
+      submitObject.id = this.props.tutorialInProgress.id;
+      ServerActions.editTutorialItem(submitObject);
+    }
   }
 
   render() {
     let tutorialInProgress = this.props.tutorialInProgress;
-
+    let bubbleHeader = this.props.action === 'add' ? ('Adding Bubble to ' + tutorialInProgress.name) : 'Editing Bubble';
+    
     return (
       <Grid style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
         <Grid.Column style={{ maxWidth: 550 }}>
           <Header as='h2' color='pink' textAlign='center'>
-            Adding Bubble to {tutorialInProgress.name}
+            {bubbleHeader}
           </Header>
           <Form size='large' onSubmit={this.handleSubmit} loading={this.state.loading} error={this.props.getErrorMessages().length > 0 ? true : false}>
             <Segment textAlign='left'>
+              { this.props.action === 'edit' && this.props.tutorialInProgress ? <EditRail tutorial={tutorialInProgress} goToEditItem={this.props.goToEditItem.bind(this)} /> : null }
               <Form.Input name='title' label='Title' value={this.state.title} onChange={this.handleChange} fluid />
               <Form.TextArea name='content' label='Main Content' maxLength='300' value={this.state.content} onChange={this.handleChange} />
               <Form.Input name='order' label='Order' type='number' value={this.state.order} onChange={this.handleChange} fluid />
               <Form.Input name='cssSelector' label='CSS Selector' value={this.state.cssSelector} onChange={this.handleChange} fluid />
               <Message error list={this.props.getErrorMessages()} />
-              <Form.Button content='ADD' color='pink' fluid size='large' />
+              <Form.Button content={this.props.action === 'add' ? 'ADD' : 'SAVE'} color='pink' fluid size='large' />
             </Segment>
           </Form>
           <Message>
