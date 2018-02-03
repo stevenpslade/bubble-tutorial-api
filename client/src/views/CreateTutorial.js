@@ -6,7 +6,7 @@ import UserStore from '../stores/UserStore'
 import CreateTutorialItems from './components/CreateTutorialItems'
 import EditRail from './components/EditRail'
 import { Link } from 'react-router-dom'
-import { Form, Grid, Header, Message, Segment, Icon } from 'semantic-ui-react'
+import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 class CreateTutorial extends Component {
 
@@ -47,6 +47,7 @@ class CreateTutorial extends Component {
       TutorialStore.setTutorialId(this.params.tutorialId);
 
       this.setState({
+        tutorialId: this.params.tutorialId,
         tutorialInProgress: TutorialStore.getTutorialData(this.params.tutorialId)
       });
 
@@ -174,10 +175,29 @@ class CreateTutorial extends Component {
     );
   }
 
+  getTutorialItem(itemId) {
+    let tutorial = this.state.tutorialInProgress;
+
+    if (tutorial && itemId > 0) {
+      let tutorialItems = tutorial.tutorialItems;
+
+      for (let i = 0; i < tutorialItems.length; i++) {
+        let item = tutorialItems[i];
+
+        if (item.id === itemId) {
+          return item;
+        }
+      }
+    } else {
+      return null;
+    }
+  }
+
   render() {
     let form = null;
     if ( (this.state.tutoialCreated && this.state.tutorialInProgress) || (this.state.editItemId && this.state.tutorialInProgress) ) {
-      form = <CreateTutorialItems action={this.params.action} tutorialId={this.state.tutorialId} itemId={this.state.editItemId} tutorialInProgress={this.state.tutorialInProgress} getErrorMessages={this.getErrorMessages.bind(this)} goToEditItem={this.goToEditItem.bind(this)} />;
+      let tutorialItem = this.getTutorialItem(this.state.editItemId);
+      form = <CreateTutorialItems action={this.params.action} tutorialId={this.state.tutorialId} item={tutorialItem} tutorialInProgress={this.state.tutorialInProgress} getErrorMessages={this.getErrorMessages.bind(this)} goToEditItem={this.goToEditItem.bind(this)} />;
     } else {
       form = this.tutorialForm();
     }

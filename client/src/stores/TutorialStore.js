@@ -86,6 +86,11 @@ class TutorialStore extends EventEmitter {
         this.emit(CHANGE);
         break;
 
+      case ActionTypes.EDIT_TUTORIAL_ITEM:
+        this._editTutorialItem(action.json, action.errors);
+        this.emit(CHANGE);
+        break;
+
       case ActionTypes.DELETE_TUTORIAL:
         if (action.json.status === 204) {
           let siteId = SiteStore.getSiteId();
@@ -158,6 +163,39 @@ class TutorialStore extends EventEmitter {
 
         if (tutId === itemRelId) {
           _tutorialData[i].tutorialItems.push(data.attributes);
+        }
+      }
+
+      // reset errors
+      _errors = null;
+    } else if (errors) {
+      _errors = errors;
+    }
+  }
+
+  _editTutorialItem(data, errors) {
+    if (data) {
+      let editedItem = data.attributes;
+      editedItem.id = data.id;
+
+      let tutorialId = data.relationships.tutorial.data.id;
+
+      for (let i = 0; i < _tutorialData.length; i++) {
+        let tutorial = _tutorialData[i];
+
+        if (tutorial.id === tutorialId) {
+          let tutorialItems = tutorial.tutorialItems;
+
+          for (let j = 0; j < tutorialItems.length; j++) {
+            let item = tutorialItems[j];
+
+            if (item.id === editedItem.id) {
+              _tutorialData[i].tutorialItems[j] = editedItem;
+              break;
+            }
+          }
+
+          break;
         }
       }
 

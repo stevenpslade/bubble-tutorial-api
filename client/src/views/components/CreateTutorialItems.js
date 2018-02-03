@@ -13,7 +13,8 @@ class CreateTutorialItems extends Component {
       title: '',
       content: '',
       order: 0,
-      cssSelector: ''
+      cssSelector: '',
+      editItemId: -1
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -22,7 +23,29 @@ class CreateTutorialItems extends Component {
   }
 
   componentWillMount() {
+    if (this.props.action === 'edit') {
+      this.setState({
+        title: this.props.item.title,
+        content: this.props.item.content,
+        order: this.props.item.order,
+        cssSelector: this.props.item.css_selector,
+        editItemId: this.props.item.id
+      });
+    }
+
     TutorialStore.addChangeListener(this._onChange);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.action === 'edit') {
+      this.setState({
+        title: newProps.item.title,
+        content: newProps.item.content,
+        order: newProps.item.order,
+        cssSelector: newProps.item.css_selector,
+        editItemId: newProps.item.id
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -30,7 +53,7 @@ class CreateTutorialItems extends Component {
   }
 
   _onChange() {
-    if (!TutorialStore.getErrors()) {
+    if (!TutorialStore.getErrors() && this.props.action === 'add') {
       this.setState({
         title: '',
         content: '',
@@ -64,7 +87,7 @@ class CreateTutorialItems extends Component {
     if (this.props.action === 'add') {
       ServerActions.addTutorialItem(submitObject);
     } else if (this.props.action === 'edit') {
-      submitObject.id = this.props.tutorialInProgress.id;
+      submitObject.id = this.state.editItemId;
       ServerActions.editTutorialItem(submitObject);
     }
   }

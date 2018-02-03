@@ -249,6 +249,39 @@ const Actions = {
     });
   },
 
+  editTutorialItem(tutorialItem) {
+    window.fetch(`${API_URL}/tutorial_items/${tutorialItem.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + UserStore.getAuthToken()
+      },
+      body: JSON.stringify({"tutorial_item":{
+        title: tutorialItem.title,
+        content: tutorialItem.content,
+        order: tutorialItem.order,
+        css_selector: tutorialItem.cssSelector,
+        active: true,
+        tutorial_id: tutorialItem.tutorialId
+      }})
+    })
+    .then(function(response) {
+      return response.json();
+    }).then(function(data) {
+      AppDispatcher.dispatch({
+        actionType: ActionTypes.EDIT_TUTORIAL_ITEM,
+        json: data.data,
+        errors: data.errors
+      });
+    }).catch(function(error) {
+        AppDispatcher.dispatch({
+          actionType: ActionTypes.EDIT_TUTORIAL_ITEM,
+          json: null,
+          errors: error
+        });
+    });
+  },
+
   deleteTutorial(tutId, siteId) {
     window.fetch(`${API_URL}/sites/${siteId}/tutorials/${tutId}`, {
       method: 'DELETE',
