@@ -84,7 +84,7 @@ class CreateTutorialItems extends Component {
       tutorialId: this.props.tutorialId
     }
 
-    if (this.props.action === 'add') {
+    if (this.props.action === 'add' || this.state.editItemId < 0) {
       ServerActions.addTutorialItem(submitObject);
     } else if (this.props.action === 'edit') {
       submitObject.id = this.state.editItemId;
@@ -94,7 +94,7 @@ class CreateTutorialItems extends Component {
 
   render() {
     let tutorialInProgress = this.props.tutorialInProgress;
-    let bubbleHeader = this.props.action === 'add' ? ('Adding Bubble to ' + tutorialInProgress.name) : 'Editing Bubble';
+    let bubbleHeader = this.props.action === 'add' || this.state.editItemId < 0 ? ('Adding Bubble to ' + tutorialInProgress.name) : 'Editing Bubble';
     
     return (
       <Grid style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
@@ -110,7 +110,7 @@ class CreateTutorialItems extends Component {
               <Form.Input name='order' label='Order' type='number' value={this.state.order} onChange={this.handleChange} fluid />
               <Form.Input name='cssSelector' label='CSS Selector' value={this.state.cssSelector} onChange={this.handleChange} fluid />
               <Message error list={this.props.getErrorMessages()} />
-              <Form.Button content={this.props.action === 'add' ? 'ADD' : 'SAVE'} color='pink' fluid size='large' />
+              <Form.Button content={this.props.action === 'add' || this.state.editItemId < 0 ? 'ADD' : 'SAVE'} color='pink' fluid size='large' />
             </Segment>
           </Form>
           <Message>

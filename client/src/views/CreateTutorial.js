@@ -189,7 +189,15 @@ class CreateTutorial extends Component {
         }
       }
     } else {
-      return null;
+      let item = {
+        title: '',
+        content: '',
+        order: 0,
+        css_selector: '',
+        id: -1
+      };
+
+      return item;
     }
   }
 
