@@ -4,6 +4,7 @@ import TutorialStore from '../stores/TutorialStore'
 import SiteStore from '../stores/SiteStore'
 import UserStore from '../stores/UserStore'
 import CreateTutorialItems from './components/CreateTutorialItems'
+import HeaderBar from '../Header'
 import EditRail from './components/EditRail'
 import { Link } from 'react-router-dom'
 import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
@@ -212,6 +213,7 @@ class CreateTutorial extends Component {
 
     return (
       <div className='createTutorialContainer' style={{ marginTop: '9em' }}>
+        <HeaderBar subMenu={false} />
         {form}
       </div>
     );

@@ -4,6 +4,7 @@ import UserStore from '../stores/UserStore'
 import SiteStore from '../stores/SiteStore'
 import ServerActions from '../actions/ServerActionCreators'
 import CreateSite from './components/CreateSite'
+import HeaderBar from '../Header'
 import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import '../style/signUp.css'
 
@@ -96,6 +97,7 @@ class SignUp extends Component {
 
     return (
       <div className='signUpForm'>
+        <HeaderBar />
         <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as='h2' color='pink' textAlign='center'>

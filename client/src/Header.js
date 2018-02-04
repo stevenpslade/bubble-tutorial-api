@@ -15,6 +15,10 @@ class HeaderBar extends Component {
     this._onChange = this._onChange.bind(this);
   }
 
+  static defaultProps = {
+      subMenu: true
+  }
+
   componentWillMount() {
     SiteStore.addChangeListener(this._onChange);
   }
@@ -52,7 +56,7 @@ class HeaderBar extends Component {
   displaySubMenu() {
     let subMenu = null;
 
-    if (UserStore.isLoggedIn()) {
+    if (UserStore.isLoggedIn() && this.props.subMenu) {
       subMenu = (
         <Menu className='actionSubMenu' fixed='top' style={{ zIndex: '1', background: 'rgba(255, 255, 255, 0.65)' }}>
           <Container text>

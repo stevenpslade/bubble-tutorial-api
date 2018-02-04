@@ -4,6 +4,7 @@ import ServerActions from '../actions/ServerActionCreators'
 import SiteStore from '../stores/SiteStore'
 import TutorialStore from '../stores/TutorialStore'
 import TutorialCard from './components/TutorialCard'
+import HeaderBar from '../Header'
 import { Grid, Header, Segment, Container, Item, Icon } from 'semantic-ui-react'
 import '../style/dashboard.css'
 
@@ -158,6 +159,7 @@ class Dashboard extends Component {
 
     return (
       <div className='dashboardContainer'>
+        <HeaderBar />
         {mainContent}
       </div>
     );

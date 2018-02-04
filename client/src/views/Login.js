@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import UserStore from '../stores/UserStore'
 import ServerActions from '../actions/ServerActionCreators'
+import HeaderBar from '../Header'
 import { Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import '../style/login.css'
 
@@ -97,6 +98,7 @@ class Login extends Component {
 
     return (
       <div className='loginForm'>
+        <HeaderBar />
         <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as='h2' color='pink' textAlign='center'>
