@@ -287,11 +287,11 @@
         var css_link = $("<link>", { 
             rel: "stylesheet", 
             type: "text/css", 
-            href: "https://www.simplebubble.com/tutorial.css" 
+            href: "https://www.simplebubble.xyz/tutorial.css" 
         });
         css_link.appendTo('head');          
 
-        var api_url = "https://api.simplebubble.com/v1/sites/" + siteId + "/tutorials";
+        var api_url = "https://api.simplebubble.xyz/v1/sites/" + siteId + "/tutorials";
         $.getJSON(api_url, function(data) {
 
           if (data['data'].length === 0) {
