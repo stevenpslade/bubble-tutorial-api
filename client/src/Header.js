@@ -76,7 +76,7 @@ class HeaderBar extends Component {
   }
 
   codeSnippetModal() {
-    let scriptCode = `<script id="bubbleScript" site_id="${this.state.site.id}" src="https://www.stevenpslade.com/tutorial.js"></script>`;
+    let scriptCode = `<script id="bubbleScript" site_id="${this.state.site.id}" src="https://www.simplebubble.xyz/tutorial.js"></script>`;
     let modal = null;
 
     if (UserStore.isLoggedIn()) {
