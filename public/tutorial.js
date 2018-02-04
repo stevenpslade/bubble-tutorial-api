@@ -23,8 +23,8 @@
       } else {
         script_tag.onload = scriptLoadHandler;
       }
-      // Try to find the head, otherwise default to the documentElement
-      (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+
+      document.body.appendChild(script_tag);
     } else {
       console.log("jquery was found");
       // The jQuery version on the window is the one we want to use
