@@ -1,6 +1,5 @@
 .bubble {
-  background-color: #3ac5ef;
-  /*background-color: rgb(24, 123, 208);*/
+  background-color: #e03997;
   /*box-shadow: 4px 4px 0px #0a375f;*/
   color: white;
   max-width: 340px;
@@ -19,8 +18,7 @@
 }
 
 .bubble .bubble-action {
-  background-color: #006079;
-  /*background-color: rgb(9, 55, 95);*/
+  background-color: #aa0069;
   padding: 0.3em 0.7em;
   border-radius: 0.3em;
   font-weight: 900;
@@ -34,8 +32,7 @@
     width: 0px;
     height: 0px;
     border-style: solid;
-    border-color: #3ac5ef;
-    /*border-color: #187bd0;*/
+    border-color: #e03997;
     margin-right: 0px;
     margin-left: 0px;
     position: absolute;
