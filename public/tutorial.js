@@ -6,7 +6,6 @@
   head.appendChild(popperScript);
 
   function loadJquery() {
-    var jQuery;
     if (window.jQuery === undefined) {
       console.log("jquery was not found");
 
@@ -35,7 +34,7 @@
     function scriptLoadHandler() {
       // Restore $ and window.jQuery to their previous values and store the
       // new jQuery in our local jQuery variable
-      jQuery = window.jQuery.noConflict(true);
+      jQuery = window.jQuery;
 
       // Call our main function
       main();
@@ -107,7 +106,11 @@
       var index = this.tutorialItemIndex;
 
       tutorialItems[index].hide();
-      this.setCompletedCookies(this.options.id);
+      /**
+      * Not adding cookie to complete tutorial item until
+      * I add a option in the api for only show once to users.
+      **/
+      //this.setCompletedCookies(this.options.id);
 
       stepThroughTutorials();
     },

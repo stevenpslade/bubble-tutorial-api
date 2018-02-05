@@ -45,6 +45,12 @@ class HeaderBar extends Component {
           <Button inverted onClick={this.logout}>Sign Out</Button>
         </Menu.Item>
       );
+    } else {
+      links = (
+        <Menu.Item position='right'>
+          <Button as={Link} to='/demo' inverted>Demo</Button>
+        </Menu.Item>
+      );
     }
 
     return links;

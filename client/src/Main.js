@@ -4,6 +4,7 @@ import UserStore from './stores/UserStore'
 import ServerActions from './actions/ServerActionCreators'
 import SignUp from './views/SignUp'
 import Login from './views/Login'
+import Demo from './views/Demo'
 import Dashboard from './views/Dashboard'
 import CreateTutorial from './views/CreateTutorial'
 
@@ -52,6 +53,7 @@ class Main extends Component {
           <PrivateRoute exact path='/' component={Dashboard}/>
           <Route path='/signup' component={SignUp}/>
           <Route path='/login' component={Login}/>
+          <Route path='/demo' component={Demo}/>
           <PrivateRoute path='/dashboard' component={Dashboard}/>
           <PrivateRoute path='/bubbles/:tutorialId?/:action' component={CreateTutorial}/>
           <PrivateRoute exact path='*' component={Dashboard}/>
