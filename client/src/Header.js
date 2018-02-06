@@ -48,7 +48,7 @@ class HeaderBar extends Component {
     } else {
       links = (
         <Menu.Item position='right'>
-          <Button as={Link} to='/demo' inverted>Demo</Button>
+          <Button as='a' href='/demo' inverted>Demo</Button>
         </Menu.Item>
       );
     }
