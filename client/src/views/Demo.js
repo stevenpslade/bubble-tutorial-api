@@ -133,7 +133,7 @@ class MobileContainer extends Component {
                     <Icon name='sidebar' />
                   </Menu.Item>
                   <Menu.Item position='right'>
-                    <Button as='a' href='/signup' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+                    <Button id='signUpItem' as='a' href='/signup' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
                   </Menu.Item>
                 </Menu>
               </Container>
@@ -163,9 +163,19 @@ ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
 
+const style = (
+  <style>{`
+    @keyframes back-to-sb {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(0.35em); }
+        100% { transform: translateY(0); }
+    }
+  `}</style>
+)
+
 const HomepageLayout = () => (
   <ResponsiveContainer>
-
+    {style}
     <Segment style={{ padding: '0em' }} vertical>
       <Grid celled='internally' columns='equal' stackable>
         <Grid.Row textAlign='center'>
@@ -234,6 +244,21 @@ const HomepageLayout = () => (
         </Grid>
       </Container>
     </Segment>
+    <Button
+      style={{
+        position: 'fixed',
+        margin: '2em',
+        bottom: 0,
+        left: 0,
+        animation: 'back-to-sb 1.5s ease-in-out infinite',
+        zIndex: 6,
+      }}
+      as='a'
+      href='/signup'
+      color='pink'
+      icon='left arrow'
+      content='SimpleBubble'
+    />
   </ResponsiveContainer>
 )
 
